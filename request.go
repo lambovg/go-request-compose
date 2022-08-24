@@ -45,8 +45,7 @@ func (r Post) Request() {
 }
 
 func main() {
-	var request = Get{url: "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"}
-	request.Request()
+	Get{url: "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"}.Request()
 }
 
 //func main() {
