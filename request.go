@@ -46,6 +46,10 @@ func (r Post) Request() {
 
 func main() {
 	Get{url: "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"}.Request()
+
+	extend := Get{url: "https://d2kgi8nio2h9bn.cloudfront.net"}
+	Get{url: extend.url + "/ping.json"}.Request()
+	Get{url: extend.url + "/hello-world.json"}.Request()
 }
 
 //func main() {
