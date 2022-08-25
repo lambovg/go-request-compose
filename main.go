@@ -1,36 +1,5 @@
 package main
 
-import (
-	"io/ioutil"
-	"log"
-	"net/http"
-)
-
-func (r Response) Response() {
-	log.Printf(r.body)
-
-	if r.err != nil {
-		log.Fatalln(r.err)
-	}
-}
-
-func (r Get) Request() {
-	resp, err := http.Get(r.params.url)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var response = Response{body: string(body), err: err}
-	response.Response()
-}
-
-func (r Post) Request() {
-	//TODO implementation
-}
-
 func main() {
 
 	var client = new(Request)
