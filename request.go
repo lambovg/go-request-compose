@@ -47,3 +47,20 @@ func GetAsync(url string, rc chan *http.Response) error {
 
 	return err
 }
+
+func AsyncGet(url string) error {
+	response, err := http.Get(url)
+
+	rc := make(chan *http.Response, 1)
+	if err == nil {
+		rc <- response
+		msg := <-rc
+
+		defer msg.Body.Close()
+		body, err := ioutil.ReadAll(msg.Body)
+
+		Response{Body: string(body), Err: err}.Response()
+	}
+
+	return err
+}

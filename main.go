@@ -2,9 +2,7 @@ package main
 
 import (
 	"context"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"time"
 
@@ -26,29 +24,21 @@ func main() {
 	Get{*client}.Request()
 
 	// async
-	helloWorldChan := make(chan *http.Response, 1)
-	pingChain := make(chan *http.Response, 1)
 	errGrp, _ := errgroup.WithContext(context.Background())
 
-	errGrp.Go(func() error { return GetAsync("http://localhost:8080/hello-world.json", helloWorldChan) })
-	errGrp.Go(func() error { return GetAsync("http://localhost:8080/ping.json", pingChain) })
+	errGrp.Go(func() error {
+		return AsyncGet("http://localhost:8080/hello-world.json")
+	})
+
+	errGrp.Go(func() error {
+		return AsyncGet("http://localhost:8080/ping.json")
+	})
 
 	err := errGrp.Wait()
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
-
-	// block for response
-	helloWorldResponse := <-helloWorldChan
-	defer helloWorldResponse.Body.Close()
-	helloWorldBytes, _ := ioutil.ReadAll(helloWorldResponse.Body)
-	log.Printf(string(helloWorldBytes))
-
-	pingResponse := <-pingChain
-	defer pingResponse.Body.Close()
-	pingBytes, _ := ioutil.ReadAll(pingResponse.Body)
-	log.Printf(string(pingBytes))
 
 	// benchmark
 	end := time.Now()
