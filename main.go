@@ -35,12 +35,14 @@ func main() {
 		return AsyncGet("http://localhost:8080/ping.json")
 	})
 
-	// TODO: group multiple requests into one should be part of thje lib.
 	err := errGrp.Wait()
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
+
+	// group multiple async requests
+	GroupAsync(func() error { return AsyncGet("http://localhost:8080/hello-world.json") }, func() error { return AsyncGet("http://localhost:8080/hello-world.json") })
 
 	// benchmark
 	end := time.Now()

@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+
+	"golang.org/x/sync/errgroup"
 )
 
 type Request struct {
@@ -67,4 +71,25 @@ func AsyncGet(url string) error {
 	}
 
 	return err
+}
+
+type requestAsync func() error
+
+func GroupAsync(fn requestAsync, fn1 requestAsync) {
+	errGrp, _ := errgroup.WithContext(context.Background())
+	
+	errGrp.Go(func() error {
+		return fn()
+	})
+
+	errGrp.Go(func() error {
+		return fn1()
+	})
+
+	err := errGrp.Wait()
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+	
 }
