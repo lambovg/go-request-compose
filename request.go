@@ -38,12 +38,12 @@ func (r Post) Request() {
 	//TODO implementation
 }
 
-func GetAsync(url string, rc chan *http.Response) {
+func GetAsync(url string, rc chan *http.Response) error {
 	response, err := http.Get(url)
 
-	if err != nil {
-		panic(err)
+	if err == nil {
+		rc <- response
 	}
 
-	rc <- response
+	return err
 }

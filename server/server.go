@@ -12,11 +12,29 @@ type HellWorld struct {
 	Hello string
 }
 
+type Ping struct {
+	Ping string
+}
+
 func main() {
 
 	http.HandleFunc("/hello-world.json", func(w http.ResponseWriter, r *http.Request) {
 		helloWorld := HellWorld{"world"}
 		result, err := json.Marshal(helloWorld)
+		
+		if err != nil {
+			log.Println(err)
+		}
+
+		time.Sleep(2 * time.Second)
+		
+		log.Printf(string(result))
+		fmt.Fprintf(w, string(result))
+	})
+
+	http.HandleFunc("/ping.json", func(w http.ResponseWriter, r *http.Request) {
+		ping := Ping{"pong"}
+		result, err := json.Marshal(ping)
 		
 		if err != nil {
 			log.Println(err)
