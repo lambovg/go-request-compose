@@ -38,6 +38,8 @@ func (r Post) Request() {
 	//TODO implementation
 }
 
+// Deprecated
+// Very first impementation
 func GetAsync(url string, rc chan *http.Response) error {
 	response, err := http.Get(url)
 
@@ -48,6 +50,7 @@ func GetAsync(url string, rc chan *http.Response) error {
 	return err
 }
 
+// TODO: parsing response should be optional
 func AsyncGet(url string) error {
 	response, err := http.Get(url)
 
