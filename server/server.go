@@ -23,6 +23,8 @@ func main() {
 		}
 
 		time.Sleep(2 * time.Second)
+		
+		log.Printf(string(result))
 		fmt.Fprintf(w, string(result))
 	})
 
