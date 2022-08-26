@@ -5,14 +5,14 @@ import (
 )
 
 type Response struct {
-	body string
-	err  error
+	Body string
+	Err  error
 }
 
 func (r Response) Response() {
-	log.Printf(r.body)
+	log.Printf(r.Body)
 
-	if r.err != nil {
-		log.Fatalln(r.err)
+	if r.Err != nil {
+		log.Fatalln(r.Err)
 	}
 }

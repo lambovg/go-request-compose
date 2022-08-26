@@ -7,10 +7,10 @@ import (
 )
 
 type Request struct {
-	url      string
-	hostname string
-	protocol string
-	path     string
+	Url      string
+	Hostname string
+	Protocol string
+	Path     string
 }
 
 type Get struct {
@@ -22,7 +22,7 @@ type Post struct {
 }
 
 func (r Get) Request() {
-	resp, err := http.Get(r.params.url)
+	resp, err := http.Get(r.params.Url)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -30,7 +30,7 @@ func (r Get) Request() {
 
 	body, err := ioutil.ReadAll(resp.Body)
 
-	var response = Response{body: string(body), err: err}
+	var response = Response{Body: string(body), Err: err}
 	response.Response()
 }
 

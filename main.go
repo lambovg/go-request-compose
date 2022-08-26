@@ -14,15 +14,15 @@ import (
 func main() {
 
 	var client = new(Request)
-	client.hostname = "d2kgi8nio2h9bn.cloudfront.net"
-	client.protocol = "https"
-	client.path = "hello-world.json"
-	client.url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
+	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
+	client.Protocol = "https"
+	client.Path = "hello-world.json"
+	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
 
 	start := time.Now()
 
 	Get{*client}.Request()
-	client.url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
+	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	Get{*client}.Request()
 
 	// async
