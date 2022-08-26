@@ -75,21 +75,20 @@ func AsyncGet(url string) error {
 
 type requestAsync func() error
 
-func GroupAsync(fn requestAsync, fn1 requestAsync) {
+func GroupAsync(fn []func() error) {
 	errGrp, _ := errgroup.WithContext(context.Background())
-	
-	errGrp.Go(func() error {
-		return fn()
-	})
 
-	errGrp.Go(func() error {
-		return fn1()
-	})
+	for i := range fn {
+		errGrp.Go(func() error {
+			// FIXME loopclosure
+			return fn[i]()
+		})
+	}
 
 	err := errGrp.Wait()
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
-	
+
 }

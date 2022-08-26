@@ -21,6 +21,7 @@ func main() {
 	start := time.Now()
 
 	Get{*client}.Request()
+	// request to new url
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	Get{*client}.Request()
 
@@ -42,7 +43,9 @@ func main() {
 	}
 
 	// group multiple async requests
-	GroupAsync(func() error { return AsyncGet("http://localhost:8080/hello-world.json") }, func() error { return AsyncGet("http://localhost:8080/hello-world.json") })
+	helloWorld := func() error { return AsyncGet("http://localhost:8080/hello-world.json") }
+	ping := func() error { return AsyncGet("http://localhost:8080/ping.json") }
+	GroupAsync([]func() error{helloWorld, ping})
 
 	// benchmark
 	end := time.Now()
