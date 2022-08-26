@@ -10,13 +10,14 @@ import (
 )
 
 func main() {
-
+	// sync requests
 	var client = new(Request)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	client.Protocol = "https"
 	client.Path = "hello-world.json"
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
 
+	// benchamrk async requests
 	start := time.Now()
 
 	Get{*client}.Request()
@@ -34,6 +35,7 @@ func main() {
 		return AsyncGet("http://localhost:8080/ping.json")
 	})
 
+	// TODO: group multiple requests into one should be part of thje lib.
 	err := errGrp.Wait()
 	if err != nil {
 		log.Println(err)
