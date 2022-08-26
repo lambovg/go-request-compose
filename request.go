@@ -79,9 +79,9 @@ func GroupAsync(fn []func() error) {
 	errGrp, _ := errgroup.WithContext(context.Background())
 
 	for i := range fn {
+		request := fn[i]
 		errGrp.Go(func() error {
-			// FIXME loopclosure
-			return fn[i]()
+			return request()
 		})
 	}
 
