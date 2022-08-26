@@ -51,6 +51,7 @@ func GetAsync(url string, rc chan *http.Response) error {
 }
 
 // TODO: parsing response should be optional
+// TODO: should work with Request()
 func AsyncGet(url string) error {
 	response, err := http.Get(url)
 
