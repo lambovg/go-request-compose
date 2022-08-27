@@ -35,7 +35,7 @@ func (r Get) Request() {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	var response = Response{Body: string(body), Err: err}
-	response.Response()
+	response.Response(NewBuiltinLogger())
 }
 
 func (r Post) Request() {
@@ -67,7 +67,7 @@ func AsyncGet(url string) error {
 		defer msg.Body.Close()
 		body, err := ioutil.ReadAll(msg.Body)
 
-		Response{Body: string(body), Err: err}.Response()
+		Response{Body: string(body), Err: err}.Response(NewBuiltinLogger())
 	}
 
 	return err
