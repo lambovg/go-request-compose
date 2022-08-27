@@ -7,14 +7,15 @@ import (
 	"testing"
 )
 
-func (l *BuiltinLogger) MockBuiltinLogger() *BuiltinLogger {	
+// TODO wasCallled should be defined here
+func (l *BuiltinLogger) MockBuiltinLogger() *BuiltinLogger {
 	l.logger = log.New(os.Stdout, "", 5)
 	return &BuiltinLogger{logger: l.logger}
 }
 
 func TestResponse(t *testing.T) {
 	spy := NewBuiltinLogger().MockBuiltinLogger()
-	
+
 	var response Response
 	response.Response(spy)
 
