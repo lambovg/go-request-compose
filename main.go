@@ -1,12 +1,8 @@
 package main
 
 import (
-	"context"
 	"log"
-	"os"
 	"time"
-
-	"golang.org/x/sync/errgroup"
 )
 
 func main() {
@@ -25,27 +21,16 @@ func main() {
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	Get{*client}.Request()
 
-	// async
-	errGrp, _ := errgroup.WithContext(context.Background())
+	// async multiple requests without transaction
+	log.Println("Multiple async")
+	go AsyncGet("http://localhost:8080/hello-world.json")
+	go AsyncGet("http://localhost:8080/ping.json")
 
-	errGrp.Go(func() error {
-		return AsyncGet("http://localhost:8080/hello-world.json")
-	})
-
-	errGrp.Go(func() error {
-		return AsyncGet("http://localhost:8080/ping.json")
-	})
-
-	err := errGrp.Wait()
-	if err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}
-
-	// group multiple async requests
+	// group multiple async requests into
+	log.Println("Group async requests")
 	helloWorld := func() error { return AsyncGet("http://localhost:8080/hello-world.json") }
-	ping := func() error { return AsyncGet("http://localhost:8080/ping.json") }
-	GroupAsync([]func() error{helloWorld, ping})
+	zen := func() error { return AsyncGet("http://localhost:8080/zen.json") }
+	GroupAsync([]func() error{helloWorld, zen})
 
 	// benchmark
 	end := time.Now()
