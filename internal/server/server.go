@@ -9,15 +9,15 @@ import (
 )
 
 type HellWorld struct {
-	hello string
+	Hello string
 }
 
 type Ping struct {
-	ping string
+	Ping string
 }
 
 type Zen struct {
-	zen string
+	Zen string
 }
 
 func main() {
