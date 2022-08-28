@@ -1,14 +1,14 @@
 package examples
 
 import (
-	"go-request-compose"
 	"log"
 	"time"
+    "github.com/lambovg/go-request-compose/pkg/request"
 )
 
 func SyncRequest() {
 	// sync requests
-	var client = new(main.Request)
+	var client = new(request.Request)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	client.Protocol = "https"
 	client.Path = "hello-world.json"
@@ -17,7 +17,7 @@ func SyncRequest() {
 	// benchamrk async requests
 	start := time.Now()
     
-    main.Get{*client}.Request()
+    request.Get{*client}.Request()
 
 	// benchmark
 	end := time.Now()

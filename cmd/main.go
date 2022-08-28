@@ -17,10 +17,10 @@ func main() {
 	// benchamrk async requests
 	start := time.Now()
 
-	request.Get{*client}.Request()
+	request.Get{Params: *client}.Request()
 	// request to new url
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
-	request.Get{*client}.Request()
+	request.Get{Params: *client}.Request()
 
 	// async multiple requests without transaction
 	log.Println("Multiple async")
