@@ -3,10 +3,10 @@ package examples
 import (
 	"log"
 	"time"
-    "github.com/lambovg/go-request-compose/pkg/request"
+	"github.com/lambovg/go-request-compose/pkg/request"
 )
 
-func SyncRequest() {
+func GetExtendRequest() {
 	// sync requests
 	var client = new(request.Request)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
@@ -16,10 +16,13 @@ func SyncRequest() {
 
 	// benchamrk async requests
 	start := time.Now()
-    
-    request.Get{*client}.Request()
+
+	request.Get{Params: *client}.Request()
+	// request to new url
+	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
+	request.Get{Params: *client}.Request()
 
 	// benchmark
 	end := time.Now()
-	log.Printf("Order processed after %v seconds\n", end.Sub(start).Seconds())
+	log.Printf("Get request took %v seconds\n", end.Sub(start).Seconds())
 }
