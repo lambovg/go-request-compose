@@ -1,4 +1,4 @@
-package main
+package request
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-
 	"golang.org/x/sync/errgroup"
 )
 
