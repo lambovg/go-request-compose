@@ -14,7 +14,7 @@ type WasCalled struct {
 
 type BuiltinLogger struct {
 	logger    *log.Logger
-	wasCalled WasCalled
+	WasCalled WasCalled
 }
 
 func NewBuiltinLogger() *BuiltinLogger {
@@ -23,18 +23,18 @@ func NewBuiltinLogger() *BuiltinLogger {
 
 func (l *BuiltinLogger) Println(args ...interface{}) {
 	//FIXME this should be part from the unit test
-	l.wasCalled.PrintLn = true
+	l.WasCalled.PrintLn = true
 	l.logger.Println(args...)
 }
 
 func (l *BuiltinLogger) Printf(format string, args ...interface{}) {
 	//FIXME this should be part from the unit test
-	l.wasCalled.Printf = true
+	l.WasCalled.Printf = true
 	l.logger.Printf(format, args...)
 }
 
 func (l *BuiltinLogger) Fatalln(error error) {
 	//FIXME this should be part from the unit test
-	l.wasCalled.Fatalln = true
+	l.WasCalled.Fatalln = true
 	l.logger.Fatalln(error)
 }
