@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"golang.org/x/sync/errgroup"
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	compose_response "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 type Request struct {
@@ -17,15 +19,15 @@ type Request struct {
 }
 
 type Get struct {
-	params Request
+	Params Request
 }
 
 type Post struct {
-	params Request
+	Params Request
 }
 
 func (r Get) Request() {
-	resp, err := http.Get(r.params.Url)
+	resp, err := http.Get(r.Params.Url)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -33,8 +35,8 @@ func (r Get) Request() {
 
 	body, err := ioutil.ReadAll(resp.Body)
 
-	var response = Response{Body: string(body), Err: err}
-	response.Response(NewBuiltinLogger())
+	var response = compose_response.Response{Body: string(body), Err: err}
+	response.Response(logger.NewBuiltinLogger())
 }
 
 func (r Post) Request() {
@@ -66,7 +68,7 @@ func AsyncGet(url string) error {
 		defer msg.Body.Close()
 		body, err := ioutil.ReadAll(msg.Body)
 
-		Response{Body: string(body), Err: err}.Response(NewBuiltinLogger())
+		compose_response.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 
 	return err

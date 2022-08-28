@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"time"
+	"github.com/lambovg/go-request-compose/pkg/request"
 )
 
 func main() {
 	// sync requests
-	var client = new(Request)
+	var client = new(request.Request)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	client.Protocol = "https"
 	client.Path = "hello-world.json"
@@ -16,21 +17,21 @@ func main() {
 	// benchamrk async requests
 	start := time.Now()
 
-	Get{*client}.Request()
+	request.Get{*client}.Request()
 	// request to new url
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
-	Get{*client}.Request()
+	request.Get{*client}.Request()
 
 	// async multiple requests without transaction
 	log.Println("Multiple async")
-	go AsyncGet("http://localhost:8080/hello-world.json")
-	go AsyncGet("http://localhost:8080/ping.json")
+	go request.AsyncGet("http://localhost:8080/hello-world.json")
+	go request.AsyncGet("http://localhost:8080/ping.json")
 
 	// group multiple async requests into
 	log.Println("Group async requests")
-	helloWorld := func() error { return AsyncGet("http://localhost:8080/hello-world.json") }
-	zen := func() error { return AsyncGet("http://localhost:8080/zen.json") }
-	GroupAsync([]func() error{helloWorld, zen})
+	helloWorld := func() error { return request.AsyncGet("http://localhost:8080/hello-world.json") }
+	zen := func() error { return request.AsyncGet("http://localhost:8080/zen.json") }
+	request.GroupAsync([]func() error{helloWorld, zen})
 
 	// benchmark
 	end := time.Now()
