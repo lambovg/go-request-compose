@@ -2,13 +2,13 @@ package request
 
 import (
 	"context"
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	compose_response "github.com/lambovg/go-request-compose/pkg/response"
+	"golang.org/x/sync/errgroup"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"golang.org/x/sync/errgroup"
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	compose_response "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 type Request struct {
@@ -20,13 +20,20 @@ type Request struct {
 
 type Get struct {
 	Params Request
+	Url    string
 }
 
 type Post struct {
 	Params Request
+	Url    string
 }
 
 func (r Get) Request() {
+
+	if r.Params.Url == "" {
+		r.Params.Url = r.Url
+	}
+
 	resp, err := http.Get(r.Params.Url)
 
 	if err != nil {
@@ -43,16 +50,30 @@ func (r Post) Request() {
 	//TODO implementation
 }
 
-// Deprecated
-// Very first impementation
-func GetAsync(url string, rc chan *http.Response) error {
-	response, err := http.Get(url)
+// Future Get Request
+func GetAsync(url string) func() ([]byte, error) {
+	var body []byte
+	var err error
 
-	if err == nil {
-		rc <- response
+	rc := make(chan *http.Response, 1)
+
+	go func() {
+		defer close(rc)
+
+		response, err := http.Get(url)
+		if err == nil {
+			defer response.Body.Close()
+			body, err = ioutil.ReadAll(response.Body)
+
+			compose_response.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
+		}
+	}()
+
+	// TODO return should be response object
+	return func() ([]byte, error) {
+		<-rc
+		return body, err
 	}
-
-	return err
 }
 
 // TODO: parsing response should be optional
