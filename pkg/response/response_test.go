@@ -11,13 +11,12 @@ func TestResponse(t *testing.T) {
 
 	var response Response
 	response.Response(spy)
-	
-	
-	if !spy.WasCalled().Printf {
+
+	if !spy.WasCalled.Printf {
 		t.Error("Printf was not called")
 	}
 
-	if spy.WasCalled().PrintLn {
+	if spy.WasCalled.PrintLn {
 		t.Error("Println is called")
 	}
 }
