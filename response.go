@@ -9,6 +9,6 @@ func (r Response) Response(log *BuiltinLogger) {
 	log.Printf(r.Body)
 
 	if r.Err != nil {
-		log.Fatalln(r.Err)
+		log.Println(r.Err)
 	}
 }

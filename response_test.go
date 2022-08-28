@@ -23,8 +23,8 @@ func TestResponse(t *testing.T) {
 		t.Error("Printf was not called")
 	}
 
-	if spy.wasCalled.Fatalln {
-		t.Error("Fatalln is called")
+	if spy.wasCalled.PrintLn {
+		t.Error("Println is called")
 	}
 }
 
