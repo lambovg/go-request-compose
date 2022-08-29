@@ -1,9 +1,8 @@
 package examples
 
 import (
-	"log"
-
 	"github.com/lambovg/go-request-compose/pkg/request"
+	"log"
 )
 
 func AsyncGetRequests() {
@@ -13,7 +12,12 @@ func AsyncGetRequests() {
 	future2 := request.GetAsync("http://localhost:8080/ping.json")
 	future3 := request.GetAsync("http://localhost:8080/zen.json")
 
-	future2()
-	future1()
-	future3()
+	zen := future3()
+	log.Print("return value", zen.Body)
+
+	hello := future2()
+	log.Print("return value", hello.Body)
+
+	ping := future1()
+	log.Print("return value", ping.Body)
 }

@@ -1,6 +1,6 @@
 package response
 
-import(
+import (
 	"github.com/lambovg/go-request-compose/pkg/logger"
 )
 
@@ -9,10 +9,12 @@ type Response struct {
 	Err  error
 }
 
-func (r Response) Response(log *logger.BuiltinLogger) {
+func (r Response) Response(log *logger.BuiltinLogger) *Response {
 	log.Printf(r.Body)
-	
+
 	if r.Err != nil {
 		log.Println(r.Err)
 	}
+
+	return &r
 }

@@ -3,7 +3,7 @@ package request
 import (
 	"context"
 	"github.com/lambovg/go-request-compose/pkg/logger"
-	compose_response "github.com/lambovg/go-request-compose/pkg/response"
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"golang.org/x/sync/errgroup"
 	"io/ioutil"
 	"log"
@@ -42,7 +42,7 @@ func (r Get) Request() {
 
 	body, err := ioutil.ReadAll(resp.Body)
 
-	var response = compose_response.Response{Body: string(body), Err: err}
+	var response = cresponse.Response{Body: string(body), Err: err}
 	response.Response(logger.NewBuiltinLogger())
 }
 
@@ -51,7 +51,7 @@ func (r Post) Request() {
 }
 
 // GetAsync Future Get Request
-func GetAsync(url string) func() ([]byte, error) {
+func GetAsync(url string) func() *cresponse.Response {
 	var body []byte
 	var err error
 
@@ -64,15 +64,13 @@ func GetAsync(url string) func() ([]byte, error) {
 		if err == nil {
 			defer response.Body.Close()
 			body, err = ioutil.ReadAll(response.Body)
-
-			compose_response.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 		}
 	}()
 
 	// TODO return should be response object
-	return func() ([]byte, error) {
+	return func() *cresponse.Response {
 		<-rc
-		return body, err
+		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 }
 
@@ -89,13 +87,11 @@ func AsyncGet(url string) error {
 		defer msg.Body.Close()
 		body, err := ioutil.ReadAll(msg.Body)
 
-		compose_response.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
+		cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 
 	return err
 }
-
-type requestAsync func() error
 
 func GroupAsync(fn []func() error) {
 	errGrp, _ := errgroup.WithContext(context.Background())
