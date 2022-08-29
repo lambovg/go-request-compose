@@ -67,7 +67,6 @@ func GetAsync(url string) func() *cresponse.Response {
 		}
 	}()
 
-	// TODO return should be response object
 	return func() *cresponse.Response {
 		<-rc
 		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
