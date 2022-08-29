@@ -50,7 +50,7 @@ func (r Post) Request() {
 	//TODO implementation
 }
 
-// Future Get Request
+// GetAsync Future Get Request
 func GetAsync(url string) func() ([]byte, error) {
 	var body []byte
 	var err error
@@ -76,7 +76,7 @@ func GetAsync(url string) func() ([]byte, error) {
 	}
 }
 
-// TODO: parsing response should be optional
+// AsyncGet TODO: parsing response should be optional
 // TODO: should work with Request()
 func AsyncGet(url string) error {
 	response, err := http.Get(url)
