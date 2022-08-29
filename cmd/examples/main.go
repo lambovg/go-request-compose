@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	// benchamrk async requests
+	// benchmark async requests
 	start := time.Now()
 
 	examples.AsyncGetRequests()
-	
+
 	// benchmark
 	end := time.Now()
 	log.Printf("Requests processed after %v seconds\n", end.Sub(start).Seconds())
