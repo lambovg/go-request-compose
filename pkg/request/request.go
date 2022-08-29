@@ -107,5 +107,22 @@ func GroupAsync(fn []func() error) {
 		log.Println(err)
 		os.Exit(1)
 	}
+}
 
+// GroupAsync2 New interface for creating async group requests
+func GroupAsync2(fn []string) {
+	errGrp, _ := errgroup.WithContext(context.Background())
+
+	for i := range fn {
+		url := fn[i]
+		errGrp.Go(func() error {
+			return AsyncGet(url)
+		})
+	}
+
+	err := errGrp.Wait()
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
 }
