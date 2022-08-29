@@ -11,10 +11,9 @@ func AsyncGetRequests() {
 
 	future1 := request.GetAsync("http://localhost:8080/hello-world.json")
 	future2 := request.GetAsync("http://localhost:8080/ping.json")
-	futuer3 := request.GetAsync("http://localhost:8080/zen.json")
+	future3 := request.GetAsync("http://localhost:8080/zen.json")
 
-	futuer3()
 	future2()
 	future1()
-
+	future3()
 }
