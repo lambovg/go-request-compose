@@ -92,7 +92,7 @@ func AsyncGet(url string) error {
 	return err
 }
 
-func GroupAsync(fn []func() error) {
+func GroupAsync(fn []func() error) bool {
 	errGrp, _ := errgroup.WithContext(context.Background())
 
 	for i := range fn {
@@ -105,8 +105,9 @@ func GroupAsync(fn []func() error) {
 	err := errGrp.Wait()
 	if err != nil {
 		log.Println(err)
-		os.Exit(1)
 	}
+
+	return err == nil
 }
 
 // GroupAsync2 New interface for creating async group requests
