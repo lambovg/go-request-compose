@@ -10,6 +10,6 @@ func (r Post) Request() {
 	//TODO: implementation
 }
 
-func (r Params) Post() {
+func (p Params) Post() {
 	//TODO: implementation
 }

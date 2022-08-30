@@ -22,6 +22,10 @@ type Params struct {
 	Path     string
 }
 
+func Client(p Params) Params {
+	return p
+}
+
 // GroupAsync deprecated
 func GroupAsync(fn []func() error) bool {
 	errGrp, _ := errgroup.WithContext(context.Background())

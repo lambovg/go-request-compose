@@ -89,8 +89,8 @@ func (r Get) Response() *cresponse.Response {
 	return response.Response(logger.NewBuiltinLogger())
 }
 
-func (r Params) Get() *cresponse.Response {
-	resp, err := http.Get(r.Url)
+func (p Params) Get() *cresponse.Response {
+	resp, err := http.Get(p.Url)
 
 	if err != nil {
 		log.Println(err)
