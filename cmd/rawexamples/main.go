@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/lambovg/go-request-compose/pkg/request"
 	"log"
 	"time"
-	"github.com/lambovg/go-request-compose/pkg/request"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 	client.Path = "hello-world.json"
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
 
-	// benchamrk async requests
+	// benchmark async requests
 	start := time.Now()
 
 	request.Get{Params: *client}.Request()
@@ -22,12 +22,7 @@ func main() {
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	request.Get{Params: *client}.Request()
 
-	// async multiple requests without transaction
-	log.Println("Multiple async")
-	go request.AsyncGet("http://localhost:8080/hello-world.json")
-	go request.AsyncGet("http://localhost:8080/ping.json")
-
-	// group multiple async requests into
+	// group multiple async requests intoå
 	log.Println("Group async requests")
 	helloWorld := func() error { return request.AsyncGet("http://localhost:8080/hello-world.json") }
 	zen := func() error { return request.AsyncGet("http://localhost:8080/zen.json") }
