@@ -85,6 +85,6 @@ func (r Get) Response() *cresponse.Response {
 
 	body, err := ioutil.ReadAll(resp.Body)
 
-	var response = cresponse.Response{Body: string(body), Err: err}
+	var response = &cresponse.Response{Body: string(body), Err: err}
 	return response.Response(logger.NewBuiltinLogger())
 }
