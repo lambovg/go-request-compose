@@ -1,9 +1,9 @@
 package examples
 
 import (
+	compose_request "github.com/lambovg/go-request-compose/pkg/request"
 	"log"
 	"time"
-	compose_request "github.com/lambovg/go-request-compose/pkg/request"
 )
 
 func GetRequest() {
@@ -14,7 +14,7 @@ func GetRequest() {
 	request.Path = "hello-world.json"
 	request.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
 
-	// benchamrk
+	// benchmark
 	log.Printf("Get request start")
 	start := time.Now()
 
