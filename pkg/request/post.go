@@ -9,3 +9,7 @@ type Post struct {
 func (r Post) Request() {
 	//TODO: implementation
 }
+
+func (r Params) Post() {
+	//TODO: implementation
+}
