@@ -71,3 +71,20 @@ func (r Get) Request() {
 	var response = cresponse.Response{Body: string(body), Err: err}
 	response.Response(logger.NewBuiltinLogger())
 }
+
+func (r Get) Response() *cresponse.Response {
+	if r.Params.Url == "" {
+		r.Params.Url = r.Url
+	}
+
+	resp, err := http.Get(r.Params.Url)
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var response = cresponse.Response{Body: string(body), Err: err}
+	return response.Response(logger.NewBuiltinLogger())
+}
