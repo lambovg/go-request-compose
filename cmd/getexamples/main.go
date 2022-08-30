@@ -8,11 +8,16 @@ import (
 func main() {
 	// first solution
 	request.Get{Url: "http://localhost:8080/hello-world.json"}.Request()
-	request.Post{Url: "http://localhost:8080/hello-world.json", Body: "1=1"}.Request()
 
 	// return value of Response
 	rq := request.Get{Url: "http://localhost:8080/zen.json"}.Response()
 	log.Println("return value", rq.Body)
 	log.Println("return err", rq.Err)
+
+	// alternative, better way
+	//TODO: request.Get{Url: "url"}.Response()
+	ping := request.Params{Url: "http://localhost:8080/ping.json"}.Get()
+	log.Println("return value", ping.Body)
+	log.Println("return err", ping.Err)
 
 }

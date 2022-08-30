@@ -7,7 +7,15 @@ import (
 	"os"
 )
 
+// Request deprecated should be replaced by params
 type Request struct {
+	Url      string
+	Hostname string
+	Protocol string
+	Path     string
+}
+
+type Params struct {
 	Url      string
 	Hostname string
 	Protocol string

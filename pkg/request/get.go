@@ -88,3 +88,16 @@ func (r Get) Response() *cresponse.Response {
 	var response = &cresponse.Response{Body: string(body), Err: err}
 	return response.Response(logger.NewBuiltinLogger())
 }
+
+func (r Params) Get() *cresponse.Response {
+	resp, err := http.Get(r.Url)
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var response = &cresponse.Response{Body: string(body), Err: err}
+	return response.Response(logger.NewBuiltinLogger())
+}
