@@ -1,12 +1,8 @@
 package request
 
 import (
-	"context"
 	"log"
-	"os"
 	"sync"
-
-	"golang.org/x/sync/errgroup"
 )
 
 type Params struct {
@@ -20,47 +16,10 @@ func Client(p Params) Params {
 	return p
 }
 
-// GroupAsync deprecated
-func GroupAsync(fn []func() error) bool {
-	errGrp, _ := errgroup.WithContext(context.Background())
-
-	for i := range fn {
-		request := fn[i]
-		errGrp.Go(func() error {
-			return request()
-		})
-	}
-
-	err := errGrp.Wait()
-	if err != nil {
-		log.Println(err)
-	}
-
-	return err == nil
-}
-
-// GroupAsync2 New interface for creating async group requests
-func GroupAsync2(fn []string) {
-	errGrp, _ := errgroup.WithContext(context.Background())
-
-	for i := range fn {
-		url := fn[i]
-		errGrp.Go(func() error {
-			return AsyncGet(url)
-		})
-	}
-
-	err := errGrp.Wait()
-	if err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}
-}
-
 func GroupAsync3(fn []string) {
 	errorChan := make(chan error)
 	wgDone := make(chan bool)
-	
+
 	var wg sync.WaitGroup
 
 	for i := range fn {
@@ -78,11 +37,11 @@ func GroupAsync3(fn []string) {
 		}()
 	}
 
-	go func () {
+	go func() {
 		wg.Wait()
 		close(wgDone)
 	}()
-	
+
 	select {
 	case <-wgDone:
 		break
