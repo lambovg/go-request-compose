@@ -53,24 +53,6 @@ func Promise(url string) func() *cresponse.Response {
 	}
 }
 
-// AsyncGet TODO: should work with Request()
-func AsyncGet(url string) error {
-	response, err := http.Get(url)
-
-	rc := make(chan *http.Response, 1)
-	if err == nil {
-		rc <- response
-		msg := <-rc
-
-		defer msg.Body.Close()
-		body, err := ioutil.ReadAll(msg.Body)
-
-		cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
-	}
-
-	return err
-}
-
 func (p Params) Get() *cresponse.Response {
 	resp, err := http.Get(p.Url)
 
