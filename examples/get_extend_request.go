@@ -8,7 +8,7 @@ import (
 
 func GetExtendRequest() {
 	// sync requests
-	var client = new(request.Request)
+	var client = new(request.Params)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	client.Protocol = "https"
 	client.Path = "hello-world.json"
@@ -17,10 +17,10 @@ func GetExtendRequest() {
 	// benchmark async requests
 	start := time.Now()
 
-	request.Get{Params: *client}.Request()
+	request.Params{}.Get()
 	// request to new url
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
-	request.Get{Params: *client}.Request()
+	request.Params{}.Get()
 
 	// benchmark
 	end := time.Now()

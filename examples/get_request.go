@@ -1,14 +1,14 @@
 package examples
 
 import (
-	compose_request "github.com/lambovg/go-request-compose/pkg/request"
+	crequest "github.com/lambovg/go-request-compose/pkg/request"
 	"log"
 	"time"
 )
 
 func GetRequest() {
 	// prepare request object
-	var request = new(compose_request.Request)
+	var request = new(crequest.Params)
 	request.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	request.Protocol = "https"
 	request.Path = "hello-world.json"
@@ -19,7 +19,7 @@ func GetRequest() {
 	start := time.Now()
 
 	// sync request
-	compose_request.Get{Params: *request}.Request()
+	crequest.Params{}.Get()
 
 	// benchmark
 	end := time.Now()

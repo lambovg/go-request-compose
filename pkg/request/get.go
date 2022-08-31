@@ -8,11 +8,6 @@ import (
 	"net/http"
 )
 
-type Get struct {
-	Params Request
-	Url    string
-}
-
 // Future Get Request
 func Future(url string) func() *cresponse.Response {
 	var body []byte
@@ -52,41 +47,6 @@ func AsyncGet(url string) error {
 	}
 
 	return err
-}
-
-func (r Get) Request() {
-	//TODO: quick fix needs to removed
-	if r.Params.Url == "" {
-		r.Params.Url = r.Url
-	}
-
-	resp, err := http.Get(r.Params.Url)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var response = cresponse.Response{Body: string(body), Err: err}
-	response.Response(logger.NewBuiltinLogger())
-}
-
-func (r Get) Response() *cresponse.Response {
-	if r.Params.Url == "" {
-		r.Params.Url = r.Url
-	}
-
-	resp, err := http.Get(r.Params.Url)
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var response = &cresponse.Response{Body: string(body), Err: err}
-	return response.Response(logger.NewBuiltinLogger())
 }
 
 func (p Params) Get() *cresponse.Response {

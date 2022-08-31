@@ -8,19 +8,20 @@ import (
 
 func main() {
 	// sync requests
-	var client = new(request.Request)
-	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
-	client.Protocol = "https"
-	client.Path = "hello-world.json"
-	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
+	var params = new(request.Params)
+	params.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
+	params.Protocol = "https"
+	params.Path = "hello-world.json"
+	params.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
 
 	// benchmark async requests
 	start := time.Now()
 
-	request.Get{Params: *client}.Request()
-	// request to new url
-	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
-	request.Get{Params: *client}.Request()
+	request.Client(*params).Get()
+	
+	//request to new url
+	params.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
+	request.Client(*params).Get()
 
 	// group multiple async requests intoå
 	log.Println("Group async requests")
