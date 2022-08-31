@@ -3,6 +3,7 @@ package request
 import (
 	"log"
 	"sync"
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 type Params struct {
@@ -12,7 +13,7 @@ type Params struct {
 	Path     string
 }
 
-type requestFunc func(string) error
+type requestFunc func(string) func() *cresponse.Response
 
 func Client(p Params) Params {
 	return p
@@ -31,10 +32,10 @@ func FutureGroup(fn []string, rq requestFunc) {
 
 		go func() {
 			defer wg.Done()
-			error := rq(url)
+			res := rq(url)()
 
-			if error != nil {
-				errorChan <- error
+			if res.Err != nil {
+				errorChan <- res.Err
 			}
 		}()
 	}
