@@ -2,9 +2,11 @@ package request
 
 import (
 	"context"
-	"golang.org/x/sync/errgroup"
 	"log"
 	"os"
+	"sync"
+
+	"golang.org/x/sync/errgroup"
 )
 
 type Params struct {
@@ -52,5 +54,40 @@ func GroupAsync2(fn []string) {
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
+	}
+}
+
+func GroupAsync3(fn []string) {
+	errorChan := make(chan error)
+	wgDone := make(chan bool)
+	
+	var wg sync.WaitGroup
+
+	for i := range fn {
+		url := fn[i]
+
+		wg.Add(1)
+
+		go func() {
+			defer wg.Done()
+			error := AsyncGet(url)
+
+			if error != nil {
+				errorChan <- error
+			}
+		}()
+	}
+
+	go func () {
+		wg.Wait()
+		close(wgDone)
+	}()
+	
+	select {
+	case <-wgDone:
+		break
+	case err := <-errorChan:
+		close(errorChan)
+		log.Println("Error encountered: ", err)
 	}
 }
