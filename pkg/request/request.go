@@ -12,11 +12,13 @@ type Params struct {
 	Path     string
 }
 
+type requestFunc func(string) error
+
 func Client(p Params) Params {
 	return p
 }
 
-func GroupAsync3(fn []string) {
+func FutureGroup(fn []string, rq requestFunc) {
 	errorChan := make(chan error)
 	wgDone := make(chan bool)
 
@@ -29,7 +31,7 @@ func GroupAsync3(fn []string) {
 
 		go func() {
 			defer wg.Done()
-			error := AsyncGet(url)
+			error := rq(url)
 
 			if error != nil {
 				errorChan <- error
