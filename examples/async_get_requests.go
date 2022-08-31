@@ -1,16 +1,16 @@
 package examples
 
 import (
-	"github.com/lambovg/go-request-compose/pkg/request"
+	"github.com/lambovg/go-request-compose/pkg/request/get"
 	"log"
 )
 
 func AsyncGetRequests() {
 	log.Println("Multiple async")
 
-	future1 := request.Future("http://localhost:8080/hello-world.json")
-	future2 := request.Future("http://localhost:8080/ping.json")
-	future3 := request.Future("http://localhost:8080/zen.json")
+	future1 := get.Future("http://localhost:8080/hello-world.json")
+	future2 := get.Future("http://localhost:8080/ping.json")
+	future3 := get.Future("http://localhost:8080/zen.json")
 
 	zen := future3()
 	log.Print("return value", zen.Body)

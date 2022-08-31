@@ -8,51 +8,6 @@ import (
 	"net/http"
 )
 
-// Future Get Request
-func Future(url string) func() *cresponse.Response {
-	var body []byte
-	var err error
-
-	rc := make(chan *http.Response, 1)
-
-	go func() {
-		defer close(rc)
-
-		response, err := http.Get(url)
-		if err == nil {
-			defer response.Body.Close()
-			body, err = ioutil.ReadAll(response.Body)
-		}
-	}()
-
-	return func() *cresponse.Response {
-		<-rc
-		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
-	}
-}
-
-func Promise(url string) func() *cresponse.Response {
-	var body []byte
-	var err error
-
-	rc := make(chan *http.Response, 1)
-
-	go func() {
-		defer close(rc)
-
-		response, err := http.Get(url)
-		if err == nil {
-			defer response.Body.Close()
-			body, err = ioutil.ReadAll(response.Body)
-		}
-	}()
-
-	return func() *cresponse.Response {
-		<-rc
-		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
-	}
-}
-
 func (p Params) Get() *cresponse.Response {
 	resp, err := http.Get(p.Url)
 
