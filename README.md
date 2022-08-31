@@ -1,5 +1,7 @@
 # Go request compose
 
+* No 3rd party dependencies 
+* No State
 
 
 ## Getting started
