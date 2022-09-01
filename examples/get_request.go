@@ -18,7 +18,7 @@ func GetRequest() {
 	log.Printf("Get request start")
 	start := time.Now()
 
-	// sync request
+	// async request
 	request.Get()
 
 	// benchmark
