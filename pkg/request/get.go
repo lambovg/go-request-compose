@@ -12,11 +12,16 @@ func (p Params) Get() *cresponse.Response {
 	resp, err := http.Get(p.Url)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var response = &cresponse.Response{Body: string(body), Err: err}
+	if (err == nil) {
+		body, err := ioutil.ReadAll(resp.Body)
+		var response = &cresponse.Response{Body: string(body), Err: err}
+		return response.Response(logger.NewBuiltinLogger())
+	}
+	
+	var response = &cresponse.Response{Body: "empty", Err: err}
 	return response.Response(logger.NewBuiltinLogger())
+	
 }
