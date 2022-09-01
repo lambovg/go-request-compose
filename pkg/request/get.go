@@ -12,7 +12,7 @@ func (p Params) Get() *cresponse.Response {
 	resp, err := http.Get(p.Url)
 
 	if err != nil {
-		log.Println(err)
+		log.Fatalln(err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
