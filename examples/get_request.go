@@ -19,7 +19,7 @@ func GetRequest() {
 	start := time.Now()
 
 	// sync request
-	crequest.Params{}.Get()
+	request.Get()
 
 	// benchmark
 	end := time.Now()
