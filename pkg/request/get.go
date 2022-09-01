@@ -1,27 +1,33 @@
 package request
 
 import (
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
-func (p Params) Get() *cresponse.Response {
-	resp, err := http.Get(p.Url)
+func (p Params) Get() func() *cresponse.Response {
+	var body []byte
+	var err error
 
-	if err != nil {
-		log.Println(err)
-	}
+	rc := make(chan *http.Response, 1)
 
-	if (err == nil) {
-		body, err := ioutil.ReadAll(resp.Body)
-		var response = &cresponse.Response{Body: string(body), Err: err}
-		return response.Response(logger.NewBuiltinLogger())
+	go func() {
+		defer close(rc)
+
+		response, err := http.Get(p.Url)
+		if err == nil {
+			defer response.Body.Close()
+			body, err = ioutil.ReadAll(response.Body)
+
+			log.Println("async body", string(body))
+		}
+	}()
+
+	return func() *cresponse.Response {
+		<-rc
+		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
-	
-	var response = &cresponse.Response{Body: "", Err: err}
-	return response.Response(logger.NewBuiltinLogger())
-	
 }
