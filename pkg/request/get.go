@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
 	"github.com/lambovg/go-request-compose/pkg/logger"
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
