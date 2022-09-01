@@ -21,7 +21,7 @@ func (p Params) Get() *cresponse.Response {
 		return response.Response(logger.NewBuiltinLogger())
 	}
 	
-	var response = &cresponse.Response{Body: "empty", Err: err}
+	var response = &cresponse.Response{Body: "", Err: err}
 	return response.Response(logger.NewBuiltinLogger())
 	
 }
