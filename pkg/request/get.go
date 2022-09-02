@@ -5,18 +5,18 @@ import (
 	"log"
 	"net/http"
 	"github.com/lambovg/go-request-compose/pkg/logger"
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
-func (p Params) Get() func() *cresponse.Response {
+func (p Params) Get() func() *r.Response {
 	return get(p.Url)
 }
 
-func Get(url string) func() *cresponse.Response {
+func Get(url string) func() *r.Response {
 	return get(url)
 }
 
-func get(url string) func() *cresponse.Response {
+func get(url string) func() *r.Response {
 	var body []byte
 	var err error
 	
@@ -33,8 +33,8 @@ func get(url string) func() *cresponse.Response {
 		}
 	}()
 
-	return func() *cresponse.Response {
+	return func() *r.Response {
 		<-rc
-		return cresponse.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
+		return r.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 }
