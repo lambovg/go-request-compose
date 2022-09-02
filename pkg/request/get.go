@@ -19,12 +19,12 @@ func Get(url string) func() *r.Response {
 func get(url string) func() *r.Response {
 	var body []byte
 	var err error
-	
-	rc := make(chan *http.Response, 1)
 
+	rc := make(chan *http.Response, 1)
+	
 	go func() {
 		defer close(rc)
-
+		
 		response, err := http.Get(url)
 		if err == nil {
 			defer response.Body.Close()
