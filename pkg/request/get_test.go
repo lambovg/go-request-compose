@@ -65,6 +65,7 @@ func TestGetAsync(t *testing.T) {
 
 	Get(server.URL)
 	Params{Url: server.URL}.Get()
+	//TODO count server requests in order to make sure that both requests are async
 	time.Sleep(1 * time.Second)
 }
 
