@@ -2,8 +2,8 @@ package response
 
 import (
 	"errors"
-	"testing"
 	"github.com/lambovg/go-request-compose/pkg/logger"
+	"testing"
 )
 
 func TestResponse(t *testing.T) {
