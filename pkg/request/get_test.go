@@ -60,7 +60,7 @@ func TestGetAsync(t *testing.T) {
 		ok(t, req.URL.String(), "/")
 		rw.Write([]byte(`OK`))
 	}))
-	
+
 	defer server.Close()
 
 	Get(server.URL)
