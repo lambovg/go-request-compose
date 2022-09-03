@@ -1,5 +1,7 @@
 # Go request compose
 
+[![Go](https://github.com/lambovg/go-request-compose/actions/workflows/go.yml/badge.svg)](https://github.com/lambovg/go-request-compose/actions/workflows/go.yml)
+
 * No 3rd party dependencies 
 * No State
 
