@@ -28,7 +28,7 @@ func get(url string) func() *r.Response {
 		response, err := http.Get(url)
 		if err == nil {
 			defer response.Body.Close()
-			body, err = ioutil.ReadAll(response.Body)
+			body, _ = ioutil.ReadAll(response.Body)
 			log.Println("async body", string(body))
 		}
 	}()
