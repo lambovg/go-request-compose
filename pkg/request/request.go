@@ -1,9 +1,9 @@
 package request
 
 import (
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"log"
 	"sync"
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 type Params struct {

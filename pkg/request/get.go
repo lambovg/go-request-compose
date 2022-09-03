@@ -1,11 +1,11 @@
 package request
 
 import (
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 func (p Params) Get() func() *r.Response {
@@ -21,10 +21,10 @@ func get(url string) func() *r.Response {
 	var err error
 
 	rc := make(chan *http.Response, 1)
-	
+
 	go func() {
 		defer close(rc)
-		
+
 		response, err := http.Get(url)
 		if err == nil {
 			defer response.Body.Close()

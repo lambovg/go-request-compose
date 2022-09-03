@@ -18,7 +18,7 @@ func main() {
 	start := time.Now()
 
 	request.Client(*params).Get()
-	
+
 	//request to new url
 	params.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	request.Client(*params).Get()

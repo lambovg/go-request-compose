@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-// FIXME this should be part from the unit test
+// WasCalled FIXME this should be part from the unit test
 type WasCalled struct {
 	PrintLn bool
 	Printf  bool

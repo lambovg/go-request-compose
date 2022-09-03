@@ -1,8 +1,8 @@
 package examples
 
 import (
-	"log"
 	"github.com/lambovg/go-request-compose/pkg/request"
+	"log"
 )
 
 func AsyncGetGroupRequests() {

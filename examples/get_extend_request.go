@@ -20,7 +20,7 @@ func GetExtendRequest() {
 	// errors not block further execution
 	request.Params{}.Get()
 	client.Get()
-	
+
 	// request to new url
 	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	client.Get()

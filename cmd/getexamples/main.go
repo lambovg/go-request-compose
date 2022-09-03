@@ -1,16 +1,16 @@
 package main
 
 import (
+	"github.com/lambovg/go-request-compose/pkg/request"
 	"log"
 	"time"
-	"github.com/lambovg/go-request-compose/pkg/request"
 )
 
 func main() {
 
 	log.Println("getExamples")
 
-	// async requets
+	// async requests
 	request.Params{Url: "http://localhost:8080/hello-world.json"}.Get()
 
 	// promise
@@ -22,5 +22,5 @@ func main() {
 	GithubClient.Url = "https://api.github.com/zen"
 	GithubClient.Get()
 
-	time.Sleep(4 * time.Second)  // wait 1 sec
+	time.Sleep(4 * time.Second) // wait 1 sec
 }
