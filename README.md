@@ -1,6 +1,6 @@
 # Go request compose
 
-[![Go](https://github.com/lambovg/go-request-compose/actions/workflows/go.yml/badge.svg)](https://github.com/lambovg/go-request-compose/actions/workflows/go.yml)
+[![Test](https://github.com/lambovg/go-request-compose/actions/workflows/test.yml/badge.svg)](https://github.com/lambovg/go-request-compose/actions/workflows/test.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lambovg/go-request-compose)](https://goreportcard.com/report/github.com/lambovg/go-request-compose)
 
 * No 3rd party dependencies 
