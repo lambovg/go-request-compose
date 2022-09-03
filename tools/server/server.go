@@ -51,7 +51,7 @@ func main() {
 		fmt.Fprintf(w, string(result))
 	})
 
-	http.HandleFunc("/zen.json", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/zen", func(w http.ResponseWriter, r *http.Request) {
 		var body []byte
 		var err error
 
