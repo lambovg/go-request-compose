@@ -22,13 +22,15 @@ func TestResponse(t *testing.T) {
 }
 
 func TestResponseError(t *testing.T) {
+	spy := logger.NewBuiltinLogger().MockBuiltinLogger()
+
 	var response Response
 	response.Err = errors.New("error")
-	response.Response(logger.NewBuiltinLogger())
-}
+	response.Response(spy)
 
-func TestResponseBody(t *testing.T) {
-	var response Response
-	response.Body = "body"
 	response.Response(logger.NewBuiltinLogger())
+
+	if !spy.WasCalled.PrintLn {
+		t.Error("Println is not called")
+	}
 }
