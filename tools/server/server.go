@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"log"
 	"net/http"
@@ -51,8 +52,21 @@ func main() {
 	})
 
 	http.HandleFunc("/zen.json", func(w http.ResponseWriter, r *http.Request) {
+		var body []byte
+		var err error
+
 		response := Zen{"Keep it logically awesome"}
-		result, err := json.Marshal(response)
+		body = []byte(response.Zen)
+
+		if r.Header.Get("Accept") == "application/json" {
+			body, err = json.Marshal(response)
+			w.Header().Set("Content-Type", "application/json")
+		}
+
+		if r.Header.Get("Accept") == "application/xml" {
+			body, err = xml.Marshal(response)
+			w.Header().Set("Content-Type", "application/xml")
+		}
 
 		if err != nil {
 			log.Println(err)
@@ -60,8 +74,8 @@ func main() {
 
 		time.Sleep(12 * time.Millisecond)
 
-		log.Printf(string(result))
-		fmt.Fprintf(w, string(result))
+		log.Printf("accept: %q, %q", r.Header.Get("Accept"), string(body))
+		fmt.Fprintf(w, string(body))
 	})
 
 	log.Printf("Starting server at port 8080")
