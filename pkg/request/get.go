@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 func (p Params) Get() func() *r.Response {
@@ -25,7 +26,12 @@ func get(url string) func() *r.Response {
 	go func() {
 		defer close(rc)
 
-		response, err := http.Get(url)
+		client := &http.Client{
+			Timeout: time.Second * 10,
+		}
+
+		response, err := client.Get(url)
+
 		if err == nil {
 			defer response.Body.Close()
 			body, _ = ioutil.ReadAll(response.Body)
