@@ -34,7 +34,7 @@ func get(url string, p *Params) func() *r.Response {
 		req, _ := http.NewRequest(http.MethodGet, url, nil)
 
 		for i := range p.Headers {
-			h := strings.Split(p.Headers[i], ":")
+			h := strings.Split(p.Headers[i].Set, ":")
 			req.Header.Set(h[0], h[1])
 		}
 
