@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func GetRequestSetHeader() {
+func SetRequestHeadersInGetRequest() {
 	// benchmark
 	log.Printf("Get request start")
 	start := time.Now()
