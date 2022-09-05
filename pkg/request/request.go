@@ -11,7 +11,7 @@ type Params struct {
 	Hostname string
 	Protocol string
 	Path     string
-	Headers	 []string
+	Headers  []string
 }
 
 type requestFunc func(string) func() *cresponse.Response

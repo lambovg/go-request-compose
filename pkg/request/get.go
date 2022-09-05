@@ -1,14 +1,13 @@
 package request
 
 import (
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"time"
-
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 func (p Params) Get() func() *r.Response {
@@ -38,7 +37,7 @@ func get(url string, p *Params) func() *r.Response {
 			h := strings.Split(p.Headers[i], ":")
 			req.Header.Set(h[0], h[1])
 		}
-		
+
 		response, err := client.Do(req)
 
 		if err == nil {
