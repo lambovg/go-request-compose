@@ -11,9 +11,10 @@ func main() {
 	// benchmark async requests
 	start := time.Now()
 
-	examples.AsyncGetRequests()
+	//examples.AsyncGetRequests()
 	//examples.AsyncGetGroupRequests()
 	//examples.GetExtendRequest()
+	examples.GetRequestSetHeader()
 
 	// benchmark
 	end := time.Now()

@@ -1,23 +1,25 @@
 package request
 
 import (
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	r "github.com/lambovg/go-request-compose/pkg/response"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 	"time"
+
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 func (p Params) Get() func() *r.Response {
-	return get(p.Url)
+	return get(p.Url, &p)
 }
 
 func Get(url string) func() *r.Response {
-	return get(url)
+	return get(url, &Params{Url: url})
 }
 
-func get(url string) func() *r.Response {
+func get(url string, p *Params) func() *r.Response {
 	var body []byte
 	var err error
 
@@ -30,7 +32,14 @@ func get(url string) func() *r.Response {
 			Timeout: time.Second * 10,
 		}
 
-		response, err := client.Get(url)
+		req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+		for i := range p.Headers {
+			h := strings.Split(p.Headers[i], ":")
+			req.Header.Set(h[0], h[1])
+		}
+		
+		response, err := client.Do(req)
 
 		if err == nil {
 			defer response.Body.Close()
