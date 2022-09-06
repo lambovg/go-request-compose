@@ -3,9 +3,9 @@ package request
 import (
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"log"
-	"sync"
 	"net/http"
 	"strings"
+	"sync"
 )
 
 type Params struct {
@@ -35,6 +35,10 @@ func Headers(rq *http.Request, p *Params) {
 	for i := range p.Headers {
 		h := strings.Split(p.Headers[i].Set, ":")
 		rq.Header.Set(h[0], h[1])
+	}
+
+	for key, val := range p.Headers2 {
+		rq.Header.Set(key, strings.Join(val, ","))
 	}
 }
 

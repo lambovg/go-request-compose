@@ -15,24 +15,17 @@ func SetRequestHeadersInGetRequest() {
 	xmlHeader := cr.Header{Set: "Accept: application/xml"}
 
 	cfg := map[string][]string{
-		"Accept": {"application/json"},
+		"Accept":          {"application/json"},
+		"Accept-Language": {"en-us"},
 	}
 
-	//	Header = map[string][]string{
-	//		"Accept-Encoding": {"gzip, deflate"},
-	//		"Accept-Language": {"en-us"},
-	//		"Foo": {"Bar", "two"},
-	//	}
-
-	//
-	//map[string][]string
-	//
-
 	future := cr.Params{
-		Url:      "http://localhost:8080/zen",
-		Headers2: cfg,
-		Headers:  []cr.Header{jsonHeader, xmlHeader}}.Get()
+		Url:     "http://localhost:8080/zen",
+		Headers: []cr.Header{jsonHeader, xmlHeader}}.Get()
 	future()
+
+	future2 := cr.Params{Url: "http://localhost:8080/zen", Headers2: cfg}.Get()
+	future2()
 
 	// benchmark
 	end := time.Now()
