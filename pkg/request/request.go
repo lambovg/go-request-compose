@@ -4,6 +4,8 @@ import (
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"log"
 	"sync"
+	"net/http"
+	"strings"
 )
 
 type Params struct {
@@ -12,6 +14,7 @@ type Params struct {
 	Protocol string
 	Path     string
 	Headers  []Header
+	Headers2 Header2
 }
 
 type Header struct {
@@ -19,10 +22,20 @@ type Header struct {
 	Set string
 }
 
+type Header2 map[string][]string
+
 type requestFunc func(string) func() *cresponse.Response
 
 func Client(p Params) Params {
 	return p
+}
+
+// Headers attache headers
+func Headers(rq *http.Request, p *Params) {
+	for i := range p.Headers {
+		h := strings.Split(p.Headers[i].Set, ":")
+		rq.Header.Set(h[0], h[1])
+	}
 }
 
 func FutureGroup(fn []string, rq requestFunc) {

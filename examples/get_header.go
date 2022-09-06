@@ -1,7 +1,7 @@
 package examples
 
 import (
-	crequest "github.com/lambovg/go-request-compose/pkg/request"
+	cr "github.com/lambovg/go-request-compose/pkg/request"
 	"log"
 	"time"
 )
@@ -11,11 +11,27 @@ func SetRequestHeadersInGetRequest() {
 	log.Printf("Get request start")
 	start := time.Now()
 
-	jsonHeader := crequest.Header{Set: "Accept: application/json"}
-	xmlHeader := crequest.Header{Set: "Accept: application/xml"}
+	jsonHeader := cr.Header{Set: "Accept: application/json"}
+	xmlHeader := cr.Header{Set: "Accept: application/xml"}
 
-	future := crequest.Params{Url: "http://localhost:8080/zen",
-		Headers: []crequest.Header{jsonHeader, xmlHeader}}.Get()
+	cfg := map[string][]string{
+		"Accept": {"application/json"},
+	}
+
+	//	Header = map[string][]string{
+	//		"Accept-Encoding": {"gzip, deflate"},
+	//		"Accept-Language": {"en-us"},
+	//		"Foo": {"Bar", "two"},
+	//	}
+
+	//
+	//map[string][]string
+	//
+
+	future := cr.Params{
+		Url:      "http://localhost:8080/zen",
+		Headers2: cfg,
+		Headers:  []cr.Header{jsonHeader, xmlHeader}}.Get()
 	future()
 
 	// benchmark

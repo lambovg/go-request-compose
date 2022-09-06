@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -27,16 +26,13 @@ func get(url string, p *Params) func() *r.Response {
 	go func() {
 		defer close(rc)
 
+		//TODO remove it
 		client := &http.Client{
 			Timeout: time.Second * 10,
 		}
 
 		req, _ := http.NewRequest(http.MethodGet, url, nil)
-
-		for i := range p.Headers {
-			h := strings.Split(p.Headers[i].Set, ":")
-			req.Header.Set(h[0], h[1])
-		}
+		Headers(req, p)
 
 		response, err := client.Do(req)
 
@@ -52,3 +48,4 @@ func get(url string, p *Params) func() *r.Response {
 		return r.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 }
+
