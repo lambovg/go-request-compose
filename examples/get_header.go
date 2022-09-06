@@ -38,7 +38,11 @@ func SetRequestHeadersWithNetHttpHeaderFormat() {
 		"Accept-Language": {"en-us"},
 	}
 
-	headers := cr.HeaderSetAdd{Set: setHeaders}
+	addHeaders := map[string][]string{
+		"Cache-control": {"no-cache"},
+	}
+
+	headers := cr.HeaderSetAdd{Set: setHeaders, Add: addHeaders}
 
 	future := cr.Params{
 		Url:     "http://localhost:8080/zen",
