@@ -13,15 +13,15 @@ type Params struct {
 	Hostname string
 	Protocol string
 	Path     string
-	Headers3 HeaderSetAdd
+	Headers  Headers
 }
 
-type HeaderSetAdd struct {
-	Add Header2
-	Set Header2
+type Headers struct {
+	Add Header
+	Set Header
 }
 
-type Header2 map[string][]string
+type Header map[string][]string
 
 type requestFunc func(string) func() *cresponse.Response
 
@@ -29,9 +29,8 @@ func Client(p Params) Params {
 	return p
 }
 
-// Headers attache headers
-func Headers(rq *http.Request, p *Params) {
-	for key, val := range p.Headers3.Set {
+func AttachHeaders(rq *http.Request, p *Params) {
+	for key, val := range p.Headers.Set {
 		rq.Header.Set(key, strings.Join(val, ","))
 	}
 }

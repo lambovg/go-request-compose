@@ -32,7 +32,7 @@ func get(url string, p *Params) func() *r.Response {
 		}
 
 		req, _ := http.NewRequest(http.MethodGet, url, nil)
-		Headers(req, p)
+		AttachHeaders(req, p)
 
 		response, err := client.Do(req)
 
@@ -48,4 +48,3 @@ func get(url string, p *Params) func() *r.Response {
 		return r.Response{Body: string(body), Err: err}.Response(logger.NewBuiltinLogger())
 	}
 }
-

@@ -22,7 +22,7 @@ func SetRequestHeadersWithNetHttpHeaderFormat() {
 
 	future := cr.Params{
 		Url:      "http://localhost:8080/zen",
-		Headers3: cr.HeaderSetAdd{Set: setHeaders, Add: addHeaders}}.Get()
+		Headers: cr.Headers{Set: setHeaders, Add: addHeaders}}.Get()
 	future()
 
 	// benchmark
