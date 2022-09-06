@@ -73,8 +73,11 @@ func main() {
 		}
 
 		time.Sleep(12 * time.Millisecond)
+		allHeaders, _ := json.Marshal(r.Header)
 
+		log.Printf(string(allHeaders))
 		log.Printf("accept: %q, %q", r.Header.Get("Accept"), string(body))
+		
 		fmt.Fprintf(w, string(body))
 	})
 
