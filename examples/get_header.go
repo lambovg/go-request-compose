@@ -31,3 +31,17 @@ func SetRequestHeadersInGetRequest() {
 	end := time.Now()
 	log.Printf("Get request took %v seconds\n", end.Sub(start).Seconds())
 }
+
+func SetRequestHeadersWithNetHttpHeaderFormat() {
+	setHeaders := map[string][]string{
+		"Accept":          {"application/json"},
+		"Accept-Language": {"en-us"},
+	}
+
+	headers := cr.HeaderSetAdd{Set: setHeaders}
+
+	future := cr.Params{
+		Url:     "http://localhost:8080/zen",
+		Headers3: headers}.Get()
+	future()
+}

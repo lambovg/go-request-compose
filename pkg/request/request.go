@@ -15,11 +15,17 @@ type Params struct {
 	Path     string
 	Headers  []Header
 	Headers2 Header2
+	Headers3 HeaderSetAdd
 }
 
 type Header struct {
 	Add string
 	Set string
+}
+
+type HeaderSetAdd struct {
+	Add Header2
+	Set Header2
 }
 
 type Header2 map[string][]string
@@ -38,6 +44,10 @@ func Headers(rq *http.Request, p *Params) {
 	}
 
 	for key, val := range p.Headers2 {
+		rq.Header.Set(key, strings.Join(val, ","))
+	}
+
+	for key, val := range p.Headers3.Set {
 		rq.Header.Set(key, strings.Join(val, ","))
 	}
 }
