@@ -13,14 +13,7 @@ type Params struct {
 	Hostname string
 	Protocol string
 	Path     string
-	Headers  []Header
-	Headers2 Header2
 	Headers3 HeaderSetAdd
-}
-
-type Header struct {
-	Add string
-	Set string
 }
 
 type HeaderSetAdd struct {
@@ -38,15 +31,6 @@ func Client(p Params) Params {
 
 // Headers attache headers
 func Headers(rq *http.Request, p *Params) {
-	for i := range p.Headers {
-		h := strings.Split(p.Headers[i].Set, ":")
-		rq.Header.Set(h[0], h[1])
-	}
-
-	for key, val := range p.Headers2 {
-		rq.Header.Set(key, strings.Join(val, ","))
-	}
-
 	for key, val := range p.Headers3.Set {
 		rq.Header.Set(key, strings.Join(val, ","))
 	}

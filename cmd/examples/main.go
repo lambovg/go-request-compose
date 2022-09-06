@@ -14,7 +14,6 @@ func main() {
 	//examples.AsyncGetRequests()
 	//examples.AsyncGetGroupRequests()
 	//examples.GetExtendRequest()
-	//examples.SetRequestHeadersInGetRequest()
 	examples.SetRequestHeadersWithNetHttpHeaderFormat()
 
 	// benchmark
