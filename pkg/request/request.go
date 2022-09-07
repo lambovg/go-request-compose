@@ -33,6 +33,10 @@ func AttachHeaders(rq *http.Request, p *Params) {
 	for key, val := range p.Headers.Set {
 		rq.Header.Set(key, strings.Join(val, ","))
 	}
+
+	for key, val := range p.Headers.Add {
+		rq.Header.Add(key, strings.Join(val, ","))
+	}
 }
 
 func FutureGroup(fn []string, rq requestFunc) {
