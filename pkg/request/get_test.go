@@ -9,6 +9,7 @@ import (
 
 func TestGetFutureWithParams(t *testing.T) {
 	server := server(t)
+	defer server.Close()
 
 	future := Params{Url: server.URL}.Get()
 	ok(t, future().Body, "OK")
@@ -16,6 +17,7 @@ func TestGetFutureWithParams(t *testing.T) {
 
 func TestGetFutureWithUrl(t *testing.T) {
 	server := server(t)
+	defer server.Close()
 
 	future := Get(server.URL)
 	ok(t, future().Body, "OK")
@@ -23,6 +25,7 @@ func TestGetFutureWithUrl(t *testing.T) {
 
 func TestGetPromiseWithParams(t *testing.T) {
 	server := server(t)
+	defer server.Close()
 
 	promise := Params{Url: server.URL}.Get()
 	ok(t, promise().Body, "OK")
@@ -30,6 +33,7 @@ func TestGetPromiseWithParams(t *testing.T) {
 
 func TestGetAsync(t *testing.T) {
 	server := server(t)
+	defer server.Close()
 
 	Get(server.URL)
 	Params{Url: server.URL}.Get()
@@ -39,6 +43,7 @@ func TestGetAsync(t *testing.T) {
 
 func TestGetSetClientAndOverrideTimeout(t *testing.T) {
 	server := server(t)
+	defer server.Close()
 
 	client := &http.Client{Timeout: 30 * time.Second}
 	Params{Url: server.URL, Client: *client}.Get()
@@ -55,8 +60,6 @@ func server(t *testing.T) *httptest.Server {
 		ok(t, req.URL.String(), "/")
 		rw.Write([]byte(`OK`))
 	}))
-
-	defer server.Close()
 
 	return server
 }
