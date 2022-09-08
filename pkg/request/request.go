@@ -14,6 +14,7 @@ type Params struct {
 	Protocol string
 	Path     string
 	Headers  Headers
+	Client   http.Client
 }
 
 type Headers struct {

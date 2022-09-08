@@ -1,14 +1,15 @@
 package examples
 
 import (
-	crequest "github.com/lambovg/go-request-compose/pkg/request"
+	cr "github.com/lambovg/go-request-compose/pkg/request"
 	"log"
+	"net/http"
 	"time"
 )
 
 func GetRequest() {
 	// prepare request object
-	var request = new(crequest.Params)
+	var request = new(cr.Params)
 	request.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	request.Protocol = "https"
 	request.Path = "hello-world.json"
@@ -24,4 +25,11 @@ func GetRequest() {
 	// benchmark
 	end := time.Now()
 	log.Printf("Get request took %v seconds\n", end.Sub(start).Seconds())
+}
+
+// OverrideTimeout client doesn't wait 30 secs request to finish
+func OverrideTimeout() {
+	client := http.Client{Timeout: 10 * time.Second}
+	future1 := cr.Params{Url: "http://localhost:8080/timeout", Client: client}.Get()
+	future1()
 }

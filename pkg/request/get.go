@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 )
 
 func (p Params) Get() func() *r.Response {
@@ -26,15 +25,10 @@ func get(url string, p *Params) func() *r.Response {
 	go func() {
 		defer close(rc)
 
-		//TODO remove it
-		client := &http.Client{
-			Timeout: time.Second * 10,
-		}
-
 		req, _ := http.NewRequest(http.MethodGet, url, nil)
 		AttachHeaders(req, p)
 
-		response, err := client.Do(req)
+		response, err := p.Client.Do(req)
 
 		if err == nil {
 			defer response.Body.Close()
