@@ -69,6 +69,18 @@ func TestGetAsync(t *testing.T) {
 	time.Sleep(1 * time.Second)
 }
 
+func TestGetSetClientAndOverrideTimeout(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		ok(t, req.URL.String(), "/")
+		rw.Write([]byte(`OK`))
+	}))
+
+	defer server.Close()
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	Params{Url: server.URL, Client: *client}.Get()
+}
+
 func ok(t *testing.T, got string, want string) {
 	if got != want {
 		t.Errorf("got %q, wanted %q", got, want)
