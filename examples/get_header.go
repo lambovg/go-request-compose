@@ -33,7 +33,7 @@ func AppendRequestHeadersWithNetHttpHeaderFormat() {
 	start := time.Now()
 
 	setHeaders := map[string][]string{
-		"Cache-Control":   {"must-revalidate"},
+		"Cache-Control": {"must-revalidate"},
 	}
 
 	addHeaders := map[string][]string{
@@ -58,16 +58,15 @@ func OverrideExistingHeaderWithNetHttpHeaderFormat() {
 	start := time.Now()
 
 	setHeaders := map[string][]string{
-		"User-Agent":   {"my-agent"},
+		"User-Agent":      {"my-agent"},
 		"Cache-Control":   {"must-revalidate"},
 		"Accept-Encoding": {"gzip"},
 	}
 
 	addHeaders := map[string][]string{
-		"User-Agent": {"v11"},
-		"Cache-control": {"no-cache"},
+		"User-Agent":      {"v11"},
+		"Cache-control":   {"no-cache"},
 		"Accept-Encoding": {"br"},
-
 	}
 
 	// Resulting Cache-Control header value is "must-revalidate, no-cache"
@@ -80,5 +79,5 @@ func OverrideExistingHeaderWithNetHttpHeaderFormat() {
 
 	// benchmark
 	end := time.Now()
-	log.Printf("Get request took %v seconds\n", end.Sub(start).Seconds())	
+	log.Printf("Get request took %v seconds\n", end.Sub(start).Seconds())
 }
