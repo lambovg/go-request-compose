@@ -25,7 +25,7 @@ func main() {
 
 	http.HandleFunc("/hello-world.json", func(w http.ResponseWriter, r *http.Request) {
 		response := HellWorld{"world"}
-		result, err := json.Marshal(response)
+		body, err := json.Marshal(response)
 
 		if err != nil {
 			log.Println(err)
@@ -33,13 +33,12 @@ func main() {
 
 		time.Sleep(2 * time.Second)
 
-		log.Printf(string(result))
-		fmt.Fprintf(w, string(result))
+		responseWriter(w, r, string(body))
 	})
 
 	http.HandleFunc("/ping.json", func(w http.ResponseWriter, r *http.Request) {
 		response := Ping{"pong"}
-		result, err := json.Marshal(response)
+		body, err := json.Marshal(response)
 
 		if err != nil {
 			log.Println(err)
@@ -47,8 +46,7 @@ func main() {
 
 		time.Sleep(2 * time.Second)
 
-		log.Printf(string(result))
-		fmt.Fprintf(w, string(result))
+		responseWriter(w, r, string(body))
 	})
 
 	http.HandleFunc("/zen", func(w http.ResponseWriter, r *http.Request) {
@@ -73,16 +71,20 @@ func main() {
 		}
 
 		time.Sleep(12 * time.Millisecond)
-		allHeaders, _ := json.Marshal(r.Header)
-
-		log.Printf(string(allHeaders))
-		log.Printf("accept: %q, %q", r.Header.Get("Accept"), string(body))
-
-		fmt.Fprintf(w, string(body))
+		responseWriter(w, r, string(body))
 	})
 
 	log.Printf("Starting server at port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
+
+}
+
+func responseWriter(w http.ResponseWriter, r *http.Request, body string) {
+	allHeaders, _ := json.Marshal(r.Header)
+
+	log.Println(r.RequestURI, string(allHeaders), "\n", body)
+
+	fmt.Fprintf(w, body)
 }
