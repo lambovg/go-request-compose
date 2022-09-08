@@ -21,18 +21,11 @@ func TestGetFutureWithUrl(t *testing.T) {
 	ok(t, future().Body, "OK")
 }
 
-func TestGetPromiseWithUrl(t *testing.T) {
-	server := server(t)
-
-	promise := Get(server.URL)
-	promise()
-}
-
 func TestGetPromiseWithParams(t *testing.T) {
 	server := server(t)
 
 	promise := Params{Url: server.URL}.Get()
-	promise()
+	ok(t, promise().Body, "OK")
 }
 
 func TestGetAsync(t *testing.T) {
