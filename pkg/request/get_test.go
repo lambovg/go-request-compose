@@ -8,60 +8,35 @@ import (
 )
 
 func TestGetFutureWithParams(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	future := Params{Url: server.URL}.Get()
 	ok(t, future().Body, "OK")
 }
 
 func TestGetFutureWithUrl(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	future := Get(server.URL)
 	ok(t, future().Body, "OK")
 }
 
 func TestGetPromiseWithUrl(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	promise := Get(server.URL)
 	promise()
 }
 
 func TestGetPromiseWithParams(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	promise := Params{Url: server.URL}.Get()
 	promise()
 }
 
 func TestGetAsync(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	Get(server.URL)
 	Params{Url: server.URL}.Get()
@@ -70,12 +45,7 @@ func TestGetAsync(t *testing.T) {
 }
 
 func TestGetSetClientAndOverrideTimeout(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
-		rw.Write([]byte(`OK`))
-	}))
-
-	defer server.Close()
+	server := server(t)
 
 	client := &http.Client{Timeout: 30 * time.Second}
 	Params{Url: server.URL, Client: *client}.Get()
@@ -85,4 +55,15 @@ func ok(t *testing.T, got string, want string) {
 	if got != want {
 		t.Errorf("got %q, wanted %q", got, want)
 	}
+}
+
+func server(t *testing.T) *httptest.Server {
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		ok(t, req.URL.String(), "/")
+		rw.Write([]byte(`OK`))
+	}))
+
+	defer server.Close()
+
+	return server
 }
