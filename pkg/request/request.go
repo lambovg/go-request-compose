@@ -30,11 +30,14 @@ func Client(p Params) Params {
 	return p
 }
 
+// AttachHeaders request headers
 func AttachHeaders(rq *http.Request, p *Params) {
+	// set / override existing
 	for key, val := range p.Headers.Set {
 		rq.Header.Set(key, strings.Join(val, ","))
 	}
 
+	// add / extend definition of existing
 	for key, val := range p.Headers.Add {
 		rq.Header.Add(key, strings.Join(val, ","))
 	}
