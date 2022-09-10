@@ -12,8 +12,8 @@ func main() {
 
 	//examples.AsyncGetRequests()
 	//examples.AsyncGetGroupRequests()
-	//examples.GetExtendRequest()
-	examples.SetRequestHeadersWithNetHttpHeaderFormat()
+	examples.GetExtendRequest()
+	//examples.SetRequestHeadersWithNetHttpHeaderFormat()
 	//examples.OverrideExistingHeaderWithNetHttpHeaderFormat()
 	//examples.OverrideTimeout()
 

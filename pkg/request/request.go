@@ -11,12 +11,13 @@ import (
 
 // Params
 type Params struct {
-	Url      string
-	Hostname string
-	Protocol string
-	Path     string
-	Headers  Headers
-	Client   http.Client
+	Url         string
+	Hostname    string
+	Protocol    string
+	Path        string
+	QueryString string
+	Headers     Headers
+	Client      http.Client
 }
 
 // Request
@@ -36,8 +37,8 @@ type Header map[string][]string
 type requestFunc func(string) func() *cresponse.Response
 
 // Client
-func Client(p Params) Params {
-	return p
+func Client(p Params) *Params {
+	return &p
 }
 
 // NewRequest

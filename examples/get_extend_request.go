@@ -11,19 +11,22 @@ func GetExtendRequest() {
 	var client = new(request.Params)
 	client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
 	client.Protocol = "https"
-	client.Path = "hello-world.json"
-	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"
+	client.Path = "/hello-world.json"
 
 	// benchmark async requests
 	start := time.Now()
 
 	// errors not block further execution
-	request.Params{}.Get()
-	client.Get()
+	client.Get()()
+
+	// request to new path
+	// client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
+	client.Path = "/ping.json"
+	client.Get()()
 
 	// request to new url
-	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
-	client.Get()
+	client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/zen.json"
+	client.Get()()
 
 	// benchmark
 	end := time.Now()
