@@ -20,7 +20,7 @@ func get(url string, p *Params) func() *r.Response {
 	var body []byte
 	var err error
 
-	req, _ := http.NewRequest(http.MethodGet, url, nil)
+	req := NewRequest(http.MethodGet, url, nil)
 	AttachHeaders(req, p)
 
 	rc := make(chan *http.Response, 1)

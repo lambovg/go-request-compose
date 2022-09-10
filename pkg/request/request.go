@@ -1,11 +1,13 @@
 package request
 
 import (
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
+	"io"
 	"log"
 	"net/http"
 	"strings"
 	"sync"
+
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 type Params struct {
@@ -26,11 +28,23 @@ type Header map[string][]string
 
 type requestFunc func(string) func() *cresponse.Response
 
+// Client
 func Client(p Params) Params {
 	return p
 }
 
-// AttachHeaders request headers
+// NewRequest
+func NewRequest(method string, url string, body io.Reader) *http.Request {
+	req, err := http.NewRequest(method, url, body)
+
+	if err != nil {
+		log.Fatalln("Error creating request client: ", err)
+	}
+
+	return req
+}
+
+// AttachHeaders
 func AttachHeaders(rq *http.Request, p *Params) {
 	// set / override existing
 	for key, val := range p.Headers.Set {
@@ -43,6 +57,7 @@ func AttachHeaders(rq *http.Request, p *Params) {
 	}
 }
 
+// FutureGroup
 func FutureGroup(fn []string, rq requestFunc) {
 	errorChan := make(chan error)
 	wgDone := make(chan bool)
