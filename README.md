@@ -19,14 +19,14 @@ Clone this repo.
 ## Usage
 
 ```go
-# Async request
+// Async request
 import "cr "github.com/lambovg/go-request-compose/pkg/request"
 
 cr.Params{Url: "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"}.Get()
 ```
 
 ```go
-# Future/promise request
+// Future/promise request
 import "cr "github.com/lambovg/go-request-compose/pkg/request"
 
 future := cr.Params{Url: "https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json"}.Get()
@@ -34,7 +34,7 @@ future()
 ```
 
 ```go
-# extend client to call multiple endpoint
+// extend client to call multiple endpoints
 import "cr "github.com/lambovg/go-request-compose/pkg/request"
 
 var client = new(cr.Params)
@@ -47,8 +47,32 @@ client.Get()
 ```
 
 ```go
-# attach request headers
-# start test server with go run tools/server/server.go 
+// create client and extend request with different, paths , url
+var client = new(request.Params)
+client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
+client.Protocol = "https"
+client.Path = "/hello-world.json"
+
+// GET request to https://d2kgi8nio2h9bn.cloudfront.net/hello-world.json
+client.Get()
+
+// GET request to https://d2kgi8nio2h9bn.cloudfront.net/ping.json
+client.Path = "/ping.json"
+client.Get()
+
+
+// GET request to http://localhost:8080/zen, overrides the whole url
+client.Url = "http://localhost:8080/zen"
+client.Get()
+
+// GET request to https://d2kgi8nio2h9bn.cloudfront.net/ping.json
+client.Url = ""
+client.Get()
+```
+
+```go
+// attach request headers
+// start test server with go run tools/server/server.go 
 import "cr "github.com/lambovg/go-request-compose/pkg/request"
 
 setHeaders := map[string][]string{
@@ -61,29 +85,14 @@ future := cr.Params{
     Url:     "http://localhost:8080/zen",
     Headers: cr.Headers{Set: setHeaders}}.Get()
 future()
-
 ```
 
-Detail usage is described in examples folder.
+*Detail usage is described in ```/examples``` folder.
 
 ## Contributing
 Contributions are welcomed
 
 ## Roadmap
-
-```go
-# TBD, create client and change extend request with path
-var client = new(request.Params)
-client.Hostname = "d2kgi8nio2h9bn.cloudfront.net"
-client.Protocol = "https"
-client.Path = "hello-world.json"
-
-client.Get()
-
-client.Path = "ping.json"
-client.Get()
-```
-
 
 * Post request
 * Put requests
