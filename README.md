@@ -87,6 +87,20 @@ future := cr.Params{
 future()
 ```
 
+```go
+// Request with net/http client
+import (
+    cr "github.com/lambovg/go-request-compose/pkg/request
+    "net/http"
+)
+
+client := http.Client{Timeout: 10 * time.Second}
+params := cr.Params{Url: "http://localhost:8080/timeout"}
+
+future := cr.HttpClient{Client: client}.Get(params)
+future()
+```
+
 Detail usage is described in ```/examples``` folder.
 
 ## Contributing
