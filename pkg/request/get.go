@@ -8,10 +8,12 @@ import (
 	"net/http"
 )
 
+// Get
 func (p Params) Get() func() *r.Response {
 	return get(p.Url, &p)
 }
 
+// Get
 func Get(url string) func() *r.Response {
 	return get(url, &Params{Url: url})
 }
@@ -20,15 +22,12 @@ func get(url string, p *Params) func() *r.Response {
 	var body []byte
 	var err error
 
-	req := NewRequest(http.MethodGet, url, nil)
-	AttachHeaders(req, p)
-
 	rc := make(chan *http.Response, 1)
 
 	go func() {
 		defer close(rc)
 
-		response, err := p.Client.Do(req)
+		response, err := p.Client.Do(NewRequest(http.MethodGet, url, nil).AttachHeaders(p).Request)
 
 		if err == nil {
 			defer response.Body.Close()
