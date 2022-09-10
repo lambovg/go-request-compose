@@ -1,12 +1,13 @@
 package request
 
 import (
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 	"io"
 	"log"
 	"net/http"
 	"strings"
 	"sync"
+
+	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 // Params
@@ -23,6 +24,10 @@ type Params struct {
 // Request
 type Request struct {
 	*http.Request
+}
+
+type HttpClient struct {
+	http.Client
 }
 
 // Headers

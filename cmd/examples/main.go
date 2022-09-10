@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/lambovg/go-request-compose/examples"
 	"log"
 	"time"
+
+	"github.com/lambovg/go-request-compose/examples"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 	//examples.SetRequestHeadersWithNetHttpHeaderFormat()
 	//examples.OverrideExistingHeaderWithNetHttpHeaderFormat()
 	//examples.OverrideTimeout()
+	//examples.CompatableHttpClient()
 
 	// benchmark
 	end := time.Now()

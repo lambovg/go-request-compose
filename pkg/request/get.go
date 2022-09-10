@@ -32,6 +32,11 @@ func (p Params) Get() func() *r.Response {
 	return get(p.Url, &p)
 }
 
+func (c HttpClient) Get(p Params) func() *r.Response {
+	p.Client = c.Client
+	return get(p.Url, &p)
+}
+
 // Get
 func Get(url string) func() *r.Response {
 	return get(url, &Params{Url: url})

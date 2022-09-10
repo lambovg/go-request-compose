@@ -30,6 +30,14 @@ func GetRequest() {
 // OverrideTimeout client doesn't wait 30 secs request to finish
 func OverrideTimeout() {
 	client := http.Client{Timeout: 10 * time.Second}
-	future1 := cr.Params{Url: "http://localhost:8080/timeout", Client: client}.Get()
-	future1()
+	future := cr.Params{Url: "http://localhost:8080/timeout", Client: client}.Get()
+	future()
+}
+
+func CompatableHttpClient() {
+	client := http.Client{Timeout: 10 * time.Second}
+	params := cr.Params{Url: "http://localhost:8080/timeout"}
+
+	future := cr.HttpClient{Client: client}.Get(params)
+	future()
 }

@@ -49,6 +49,16 @@ func TestGetSetClientAndOverrideTimeout(t *testing.T) {
 	Params{Url: server.URL, Client: *client}.Get()
 }
 
+func TestGetOverrideTimeoutWithCompableHttpClient(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	client := http.Client{Timeout: 30 * time.Second}
+	params := Params{Url: server.URL}
+
+	HttpClient{client}.Get(params)
+}
+
 func ok(t *testing.T, got string, want string) {
 	if got != want {
 		t.Errorf("got %q, wanted %q", got, want)
