@@ -87,7 +87,7 @@ future := cr.Params{
 future()
 ```
 
-*Detail usage is described in ```/examples``` folder.
+Detail usage is described in ```/examples``` folder.
 
 ## Contributing
 Contributions are welcomed
