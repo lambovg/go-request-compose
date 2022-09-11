@@ -1,6 +1,7 @@
 package request
 
 import (
+	"bytes"
 	"io"
 	"log"
 	"net/http"
@@ -70,6 +71,22 @@ func (rq Request) AttachHeaders(p *Params) *Request {
 	}
 
 	return &rq
+}
+
+// CreateParams
+func (p Params) BuildUrl() string {
+	var b bytes.Buffer
+	b.WriteString(p.Protocol)
+	b.WriteString("://")
+	b.WriteString(p.Hostname)
+	b.WriteString(p.Path)
+
+	if p.QueryString != "" {
+		b.WriteString("?")
+		b.WriteString(p.QueryString)
+	}
+
+	return b.String()
 }
 
 // FutureGroup

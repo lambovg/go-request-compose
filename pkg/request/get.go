@@ -1,12 +1,12 @@
 package request
 
 import (
-	"bytes"
-	"github.com/lambovg/go-request-compose/pkg/logger"
-	r "github.com/lambovg/go-request-compose/pkg/response"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 // Get
@@ -16,18 +16,7 @@ func (p Params) Get() func() *r.Response {
 		return get(p.Url, &p)
 	}
 
-	var b bytes.Buffer
-	b.WriteString(p.Protocol)
-	b.WriteString("://")
-	b.WriteString(p.Hostname)
-	b.WriteString(p.Path)
-
-	if p.QueryString != "" {
-		b.WriteString("?")
-		b.WriteString(p.QueryString)
-	}
-
-	p.Url = b.String()
+	p.Url = p.BuildUrl()
 
 	return get(p.Url, &p)
 }
