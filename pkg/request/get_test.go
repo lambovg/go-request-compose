@@ -59,6 +59,15 @@ func TestGetOverrideTimeoutWithCompableHttpClient(t *testing.T) {
 	HttpClient{client}.Get(params)
 }
 
+func TestBuildUrlByParams(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	params, _ := Params{Hostname: "localhost:8080", Protocol: "http", Path: "/hello-world.json"}.Getv2()
+
+	ok(t, params.Url, "http://localhost:8080/hello-world.json")
+}
+
 func ok(t *testing.T, got string, want string) {
 	if got != want {
 		t.Errorf("got %q, wanted %q", got, want)

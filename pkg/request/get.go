@@ -21,6 +21,16 @@ func (p Params) Get() func() *r.Response {
 	return get(p.Url, &p)
 }
 
+func (p Params) Getv2() (Params, func() *r.Response) {
+	if p.Url != "" {
+		return p, get(p.Url, &p)
+	}
+
+	p.Url = p.BuildUrl()
+
+	return p, get(p.Url, &p)
+}
+
 // Get with HttpClient struct
 func (c HttpClient) Get(p Params) func() *r.Response {
 	p.Client = c.Client
