@@ -11,7 +11,7 @@ import (
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
 )
 
-// Params
+// Params .
 type Params struct {
 	Url         string
 	Hostname    string
@@ -22,7 +22,7 @@ type Params struct {
 	Client      http.Client
 }
 
-// Request
+// Request .
 type Request struct {
 	*http.Request
 }
@@ -31,23 +31,23 @@ type HttpClient struct {
 	http.Client
 }
 
-// Headers
+// Headers .
 type Headers struct {
 	Add Header
 	Set Header
 }
 
-// Header
+// Header .
 type Header map[string][]string
 
 type requestFunc func(string) func() *cresponse.Response
 
-// Client
+// Client .
 func Client(p Params) *Params {
 	return &p
 }
 
-// NewRequest
+// NewRequest .
 func NewRequest(method string, url string, body io.Reader) *Request {
 	req, err := http.NewRequest(method, url, body)
 
@@ -73,7 +73,7 @@ func (rq Request) AttachHeaders(p *Params) *Request {
 	return &rq
 }
 
-// CreateParams
+// BuildUrl .
 func (p Params) BuildUrl() string {
 	var b bytes.Buffer
 	b.WriteString(p.Protocol)
@@ -89,7 +89,7 @@ func (p Params) BuildUrl() string {
 	return b.String()
 }
 
-// FutureGroup
+// FutureGroup .
 func FutureGroup(fn []string, rq requestFunc) {
 	errorChan := make(chan error)
 	wgDone := make(chan bool)
