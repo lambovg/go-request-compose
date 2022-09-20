@@ -5,6 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	test "github.com/lambovg/go-request-compose/pkg/test"
 )
 
 func TestGetFutureWithParams(t *testing.T) {
@@ -12,7 +14,7 @@ func TestGetFutureWithParams(t *testing.T) {
 	defer server.Close()
 
 	future := Params{Url: server.URL}.Get()
-	ok(t, future().Body, "OK")
+	test.Ok(t, future().Body, "OK")
 }
 
 func TestGetFutureWithUrl(t *testing.T) {
@@ -20,7 +22,7 @@ func TestGetFutureWithUrl(t *testing.T) {
 	defer server.Close()
 
 	future := Get(server.URL)
-	ok(t, future().Body, "OK")
+	test.Ok(t, future().Body, "OK")
 }
 
 func TestGetPromiseWithParams(t *testing.T) {
@@ -28,7 +30,7 @@ func TestGetPromiseWithParams(t *testing.T) {
 	defer server.Close()
 
 	promise := Params{Url: server.URL}.Get()
-	ok(t, promise().Body, "OK")
+	test.Ok(t, promise().Body, "OK")
 }
 
 func TestGetAsync(t *testing.T) {
@@ -65,18 +67,12 @@ func TestBuildUrlByParams(t *testing.T) {
 
 	params, _ := Params{Hostname: "localhost", Port: 8080, Protocol: "http", Path: "/hello-world.json"}.Getv2()
 
-	ok(t, params.Url, "http://localhost:8080/hello-world.json")
-}
-
-func ok(t *testing.T, got string, want string) {
-	if got != want {
-		t.Errorf("got %q, wanted %q", got, want)
-	}
+	test.Ok(t, params.Url, "http://localhost:8080/hello-world.json")
 }
 
 func server(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		ok(t, req.URL.String(), "/")
+		test.Ok(t, req.URL.String(), "/")
 		rw.Write([]byte(`OK`))
 	}))
 
