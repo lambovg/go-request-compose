@@ -2,6 +2,7 @@ package request
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 type Params struct {
 	Url         string
 	Hostname    string
+	Port        int
 	Protocol    string
 	Path        string
 	QueryString string
@@ -79,6 +81,12 @@ func (p Params) BuildUrl() string {
 	b.WriteString(p.Protocol)
 	b.WriteString("://")
 	b.WriteString(p.Hostname)
+
+	if p.Port != 0 {
+		b.WriteString(":")
+		b.WriteString(fmt.Sprintf("%d", p.Port))
+	}
+
 	b.WriteString(p.Path)
 
 	if p.QueryString != "" {

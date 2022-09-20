@@ -63,7 +63,7 @@ func TestBuildUrlByParams(t *testing.T) {
 	server := server(t)
 	defer server.Close()
 
-	params, _ := Params{Hostname: "localhost:8080", Protocol: "http", Path: "/hello-world.json"}.Getv2()
+	params, _ := Params{Hostname: "localhost", Port: 8080, Protocol: "http", Path: "/hello-world.json"}.Getv2()
 
 	ok(t, params.Url, "http://localhost:8080/hello-world.json")
 }
