@@ -9,7 +9,7 @@ import (
 	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
-// Get
+// Get request with params builds the @link{Params} struct
 func (p Params) Get() func() *r.Response {
 
 	if p.Url != "" {
@@ -21,16 +21,18 @@ func (p Params) Get() func() *r.Response {
 	return get(p.Url, &p)
 }
 
+// Get with HttpClient struct
 func (c HttpClient) Get(p Params) func() *r.Response {
 	p.Client = c.Client
 	return get(p.Url, &p)
 }
 
-// Get
+// Get By url
 func Get(url string) func() *r.Response {
 	return get(url, &Params{Url: url})
 }
 
+// get
 func get(url string, p *Params) func() *r.Response {
 	var body []byte
 	var err error
