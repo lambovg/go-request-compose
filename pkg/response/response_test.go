@@ -2,8 +2,11 @@ package response
 
 import (
 	"errors"
-	"github.com/lambovg/go-request-compose/pkg/logger"
+	"fmt"
 	"testing"
+
+	"github.com/lambovg/go-request-compose/pkg/logger"
+	test "github.com/lambovg/go-request-compose/pkg/test"
 )
 
 func TestResponse(t *testing.T) {
@@ -33,4 +36,12 @@ func TestResponseError(t *testing.T) {
 	if !spy.WasCalled.PrintLn {
 		t.Error("Println is not called")
 	}
+}
+
+func TestResponseStatusCode(t *testing.T) {
+	spy := logger.NewBuiltinLogger().MockBuiltinLogger()
+
+	response := Response{Body: "Ok", Err: nil, StatusCode: 200}.Response(spy)
+	test.Ok(t, response.Body, "Ok")
+	test.Ok(t, fmt.Sprintf("%d", response.StatusCode), fmt.Sprintf("%d", 200))
 }

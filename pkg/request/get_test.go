@@ -1,6 +1,7 @@
 package request
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -68,6 +69,18 @@ func TestBuildUrlByParams(t *testing.T) {
 	params, _ := Params{Hostname: "localhost", Port: 8080, Protocol: "http", Path: "/hello-world.json"}.Getv2()
 
 	test.Ok(t, params.Url, "http://localhost:8080/hello-world.json")
+}
+
+func TestStatusCode(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	client := http.Client{Timeout: 30 * time.Second}
+	params := Params{Url: server.URL}
+
+	future := HttpClient{client}.Get(params)
+
+	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
 
 func server(t *testing.T) *httptest.Server {

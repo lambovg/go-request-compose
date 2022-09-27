@@ -5,8 +5,9 @@ import (
 )
 
 type Response struct {
-	Body string
-	Err  error
+	Body       string
+	Err        error
+	StatusCode int
 }
 
 func (r Response) Response(log *logger.BuiltinLogger) *Response {
