@@ -8,6 +8,7 @@ type Response struct {
 	Body       string
 	Err        error
 	StatusCode int
+	Status     string
 }
 
 func (r Response) Response(log *logger.BuiltinLogger) *Response {

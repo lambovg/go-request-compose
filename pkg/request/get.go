@@ -47,6 +47,7 @@ func get(url string, p *Params) func() *r.Response {
 	var body []byte
 	var err error
 	var statusCode int
+	var status string
 
 	rc := make(chan *http.Response, 1)
 
@@ -54,11 +55,12 @@ func get(url string, p *Params) func() *r.Response {
 		defer close(rc)
 
 		response, err := p.Client.Do(NewRequest(http.MethodGet, url, nil).AttachHeaders(p).Request)
-		statusCode = response.StatusCode
 
 		if err == nil {
 			defer response.Body.Close()
 			body, _ = ioutil.ReadAll(response.Body)
+			statusCode = response.StatusCode
+			status = response.Status
 
 			log.Println("async body", string(body))
 		}
@@ -66,6 +68,10 @@ func get(url string, p *Params) func() *r.Response {
 
 	return func() *r.Response {
 		<-rc
-		return r.Response{Body: string(body), Err: err, StatusCode: statusCode}.Response(logger.NewBuiltinLogger())
+		return r.Response{
+			Body:       string(body),
+			Err:        err,
+			StatusCode: statusCode,
+			Status:     status}.Response(logger.NewBuiltinLogger())
 	}
 }

@@ -83,6 +83,18 @@ func TestStatusCode(t *testing.T) {
 	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
 
+func TestStatus(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	client := http.Client{Timeout: 30 * time.Second}
+	params := Params{Url: server.URL}
+
+	future := HttpClient{client}.Get(params)
+
+	test.Ok(t, future().Status, "200 OK")
+}
+
 func server(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		test.Ok(t, req.URL.String(), "/")
