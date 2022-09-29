@@ -1,7 +1,7 @@
 package request
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -58,7 +58,7 @@ func get(url string, p *Params) func() *r.Response {
 
 		if err == nil {
 			defer response.Body.Close()
-			body, _ = ioutil.ReadAll(response.Body)
+			body, _ = io.ReadAll(response.Body)
 			statusCode = response.StatusCode
 			status = response.Status
 
