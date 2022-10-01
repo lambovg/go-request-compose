@@ -1,7 +1,9 @@
 package request
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -59,7 +61,7 @@ func TestGetOverrideTimeoutWithCompableHttpClient(t *testing.T) {
 	client := http.Client{Timeout: 30 * time.Second}
 	params := Params{Url: server.URL}
 
-	HttpClient{client}.Get(params)
+	HttpClient{&client}.Get(params)
 }
 
 func TestBuildUrlByParams(t *testing.T) {
@@ -78,7 +80,7 @@ func TestStatusCode(t *testing.T) {
 	client := http.Client{Timeout: 30 * time.Second}
 	params := Params{Url: server.URL}
 
-	future := HttpClient{client}.Get(params)
+	future := HttpClient{&client}.Get(params)
 
 	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
@@ -90,9 +92,16 @@ func TestStatus(t *testing.T) {
 	client := http.Client{Timeout: 30 * time.Second}
 	params := Params{Url: server.URL}
 
-	future := HttpClient{client}.Get(params)
+	future := HttpClient{&client}.Get(params)
 
 	test.Ok(t, future().Status, "200 OK")
+}
+
+func TestWithHttpTransport_returnsOkStatus(t *testing.T) {
+	client := client(t)
+
+	future := HttpClient{client}.Get(Params{Url: "/"})
+	test.Ok(t, future().Body, "OK")
 }
 
 func server(t *testing.T) *httptest.Server {
@@ -102,4 +111,32 @@ func server(t *testing.T) *httptest.Server {
 	}))
 
 	return server
+}
+
+func client(t *testing.T) *http.Client {
+	client := NewTestClient(func(req *http.Request) *http.Response {
+		test.Ok(t, req.URL.String(), "/")
+		return &http.Response{
+			StatusCode: 200,
+			Body:       io.NopCloser(bytes.NewBufferString(`OK`)),
+			Header:     make(http.Header),
+		}
+	})
+
+	return client
+}
+
+// RoundTripFunc .
+type RoundTripFunc func(req *http.Request) *http.Response
+
+// RoundTrip .
+func (f RoundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req), nil
+}
+
+// NewTestClient returns *http.Client with Transport replaced to avoid making real calls
+func NewTestClient(fn RoundTripFunc) *http.Client {
+	return &http.Client{
+		Transport: RoundTripFunc(fn),
+	}
 }

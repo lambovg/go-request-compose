@@ -30,7 +30,7 @@ type Request struct {
 }
 
 type HttpClient struct {
-	http.Client
+	*http.Client
 }
 
 // Headers .

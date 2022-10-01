@@ -33,7 +33,7 @@ func (p Params) Getv2() (Params, func() *r.Response) {
 
 // Get with HttpClient struct
 func (c HttpClient) Get(p Params) func() *r.Response {
-	p.Client = c.Client
+	p.Client = *c.Client
 	return p.get(p.Url)
 }
 

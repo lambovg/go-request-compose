@@ -38,6 +38,6 @@ func CompatableHttpClient() {
 	client := http.Client{Timeout: 10 * time.Second}
 	params := cr.Params{Url: "http://localhost:8080/timeout"}
 
-	future := cr.HttpClient{Client: client}.Get(params)
+	future := cr.HttpClient{Client: &client}.Get(params)
 	future()
 }
