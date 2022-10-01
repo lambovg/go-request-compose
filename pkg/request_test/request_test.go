@@ -1,11 +1,12 @@
-package request
+package request_test
 
 import (
+	r "github.com/lambovg/go-request-compose/pkg/request"
 	test "github.com/lambovg/go-request-compose/pkg/test"
 	"testing"
 )
 
 func TestUrlBuild(t *testing.T) {
-	url := Params{Hostname: "localhost", Protocol: "http"}.BuildUrl()
+	url := r.Params{Hostname: "localhost", Protocol: "http"}.BuildUrl()
 	test.Ok(t, url, "http://localhost")
 }
