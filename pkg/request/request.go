@@ -60,7 +60,7 @@ func NewRequest(method string, url string, body io.Reader) *Request {
 	return &Request{req}
 }
 
-// AttachHeaders
+// AttachHeaders .
 func (rq Request) AttachHeaders(p *Params) *Request {
 	// set / override existing
 	for key, val := range p.Headers.Set {
