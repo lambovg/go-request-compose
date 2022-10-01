@@ -8,7 +8,7 @@ import (
 	"github.com/lambovg/go-request-compose/pkg/logger"
 	"github.com/lambovg/go-request-compose/pkg/logger_test"
 	r "github.com/lambovg/go-request-compose/pkg/response"
-	test "github.com/lambovg/go-request-compose/pkg/test"
+	test "github.com/lambovg/go-request-compose/internal"
 )
 
 func TestResponse(t *testing.T) {

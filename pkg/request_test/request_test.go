@@ -2,7 +2,7 @@ package request_test
 
 import (
 	r "github.com/lambovg/go-request-compose/pkg/request"
-	test "github.com/lambovg/go-request-compose/pkg/test"
+	test "github.com/lambovg/go-request-compose/internal"
 	"testing"
 )
 
