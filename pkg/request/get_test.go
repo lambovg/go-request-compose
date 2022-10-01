@@ -97,11 +97,25 @@ func TestStatus(t *testing.T) {
 	test.Ok(t, future().Status, "200 OK")
 }
 
-func TestWithHttpTransport_returnsOkStatus(t *testing.T) {
+func TestWithHttpTransport_returnsOkBody(t *testing.T) {
 	client := client(t)
 
 	future := HttpClient{client}.Get(Params{Url: "/"})
 	test.Ok(t, future().Body, "OK")
+}
+
+func TestWithHttpTransport_returnsOkStatus(t *testing.T) {
+	client := client(t)
+
+	future := HttpClient{client}.Get(Params{Url: "/"})
+	test.Ok(t, future().Status, "200 OK")
+}
+
+func TestWithHttpTransport_returns200StatusCode(t *testing.T) {
+	client := client(t)
+
+	future := HttpClient{client}.Get(Params{Url: "/"})
+	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
 
 func server(t *testing.T) *httptest.Server {
@@ -118,6 +132,7 @@ func client(t *testing.T) *http.Client {
 		test.Ok(t, req.URL.String(), "/")
 		return &http.Response{
 			StatusCode: 200,
+			Status:     "200 OK",
 			Body:       io.NopCloser(bytes.NewBufferString(`OK`)),
 			Header:     make(http.Header),
 		}
