@@ -6,11 +6,12 @@ import (
 	"testing"
 
 	"github.com/lambovg/go-request-compose/pkg/logger"
+	"github.com/lambovg/go-request-compose/pkg/logger_test"
 	test "github.com/lambovg/go-request-compose/pkg/test"
 )
 
 func TestResponse(t *testing.T) {
-	spy := logger.NewBuiltinLogger().MockBuiltinLogger()
+	spy := logger_test.MockBuiltinLogger(logger.NewBuiltinLogger())
 
 	var response Response
 	response.Response(spy)
@@ -25,7 +26,7 @@ func TestResponse(t *testing.T) {
 }
 
 func TestResponseError(t *testing.T) {
-	spy := logger.NewBuiltinLogger().MockBuiltinLogger()
+	spy := logger_test.MockBuiltinLogger(logger.NewBuiltinLogger())
 
 	var response Response
 	response.Err = errors.New("error")
@@ -39,7 +40,7 @@ func TestResponseError(t *testing.T) {
 }
 
 func TestResponseStatusCode(t *testing.T) {
-	spy := logger.NewBuiltinLogger().MockBuiltinLogger()
+	spy := logger_test.MockBuiltinLogger(logger.NewBuiltinLogger())
 
 	response := Response{Body: "Ok", Err: nil, StatusCode: 200}.Response(spy)
 	test.Ok(t, response.Body, "Ok")
