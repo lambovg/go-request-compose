@@ -1,8 +1,6 @@
 package request
 
 import (
-	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -28,10 +26,12 @@ type Request struct {
 	*http.Request
 }
 
+// HttpClient .
 type HttpClient struct {
 	*http.Client
 }
 
+// requestFunc .
 type requestFunc func(string) func() *cresponse.Response
 
 // Client .
@@ -48,28 +48,6 @@ func NewRequest(method string, url string, body io.Reader) *Request {
 	}
 
 	return &Request{req}
-}
-
-// BuildUrl .
-func (p Params) BuildUrl() string {
-	var b bytes.Buffer
-	b.WriteString(p.Protocol)
-	b.WriteString("://")
-	b.WriteString(p.Hostname)
-
-	if p.Port != 0 {
-		b.WriteString(":")
-		b.WriteString(fmt.Sprintf("%d", p.Port))
-	}
-
-	b.WriteString(p.Path)
-
-	if p.QueryString != "" {
-		b.WriteString("?")
-		b.WriteString(p.QueryString)
-	}
-
-	return b.String()
 }
 
 // FutureGroup .
