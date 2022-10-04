@@ -17,6 +17,7 @@ type Params struct {
 	Protocol    string
 	Path        string
 	QueryString string
+	Body        io.Reader
 	Headers     Headers
 	Client      http.Client
 }
