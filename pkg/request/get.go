@@ -21,6 +21,7 @@ func (p Params) Get() func() *r.Response {
 	return p.get(p.Url)
 }
 
+// Getv2 .
 func (p Params) Getv2() (Params, func() *r.Response) {
 	if p.Url != "" {
 		return p, p.get(p.Url)

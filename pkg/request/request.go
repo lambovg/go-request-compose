@@ -6,7 +6,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"strings"
 	"sync"
 
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
@@ -33,15 +32,6 @@ type HttpClient struct {
 	*http.Client
 }
 
-// Headers .
-type Headers struct {
-	Add Header
-	Set Header
-}
-
-// Header .
-type Header map[string][]string
-
 type requestFunc func(string) func() *cresponse.Response
 
 // Client .
@@ -58,21 +48,6 @@ func NewRequest(method string, url string, body io.Reader) *Request {
 	}
 
 	return &Request{req}
-}
-
-// AttachHeaders .
-func (rq Request) AttachHeaders(p *Params) *Request {
-	// set / override existing
-	for key, val := range p.Headers.Set {
-		rq.Header.Set(key, strings.Join(val, ","))
-	}
-
-	// add / extend definition of existing
-	for key, val := range p.Headers.Add {
-		rq.Header.Add(key, strings.Join(val, ","))
-	}
-
-	return &rq
 }
 
 // BuildUrl .
