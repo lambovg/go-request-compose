@@ -10,7 +10,7 @@ import (
 )
 
 func (p Params) Post() func() *r.Response {
-	return  p.post(p.Url)
+	return p.post(p.Url)
 }
 
 // get .

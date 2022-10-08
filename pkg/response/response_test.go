@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/lambovg/go-request-compose/pkg/logger"
 	test "github.com/lambovg/go-request-compose/internal"
+	"github.com/lambovg/go-request-compose/pkg/logger"
 )
 
 func TestResponse(t *testing.T) {
