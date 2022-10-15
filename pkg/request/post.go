@@ -18,6 +18,7 @@ func (p Params) Post() func() *r.Response {
 func (p Params) post(url string) func() *r.Response {
 	var body []byte
 	var err error
+	var response *http.Response
 	var statusCode int
 	var status string
 
@@ -26,8 +27,11 @@ func (p Params) post(url string) func() *r.Response {
 	go func() {
 		defer close(rc)
 
-		response, err := p.Client.Do(NewRequest(http.MethodPost, url, p.Body).AttachHeaders(&p).Request)
-		//response, err := http.PostForm(url, p.FormData)
+		if p.FormData != nil {
+			response, err = http.PostForm(url, p.FormData)
+		} else {
+			response, err = p.Client.Do(NewRequest(http.MethodPost, url, p.Body).AttachHeaders(&p).Request)
+		}
 
 		if err == nil {
 			defer response.Body.Close()
