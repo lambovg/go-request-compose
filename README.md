@@ -11,7 +11,8 @@
 ## Description
 Build request object with parameters, headers, url and endpoints. 
 
-* Current state is GET requests.
+* ~~Current state is GET requests.~~
+* Current state is POST requests.
 
 ## Installation
 Clone this repo.
