@@ -13,7 +13,7 @@ func (p Params) Post() func() *r.Response {
 	return p.post(p.Url)
 }
 
-// get .
+// post .
 func (p Params) post(url string) func() *r.Response {
 	var body []byte
 	var err error
