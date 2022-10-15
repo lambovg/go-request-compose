@@ -10,6 +10,7 @@ import (
 )
 
 func (p Params) Post() func() *r.Response {
+
 	return p.post(p.Url)
 }
 
@@ -26,6 +27,7 @@ func (p Params) post(url string) func() *r.Response {
 		defer close(rc)
 
 		response, err := p.Client.Do(NewRequest(http.MethodPost, url, p.Body).AttachHeaders(&p).Request)
+		//response, err := http.PostForm(url, p.FormData)
 
 		if err == nil {
 			defer response.Body.Close()

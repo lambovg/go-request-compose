@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"sync"
 
 	cresponse "github.com/lambovg/go-request-compose/pkg/response"
@@ -18,6 +19,7 @@ type Params struct {
 	Path        string
 	QueryString string
 	Body        io.Reader
+	FormData    url.Values
 	Headers     Headers
 	Client      http.Client
 }
