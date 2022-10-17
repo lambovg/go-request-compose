@@ -34,6 +34,27 @@ func TestGivenFormData_whenPost_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Body, "username=jonh-doe")
 }
 
+func TestGivenBuildParams_whenPost_thenReturnUrl(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	params := Params{Hostname: "localhost", Port: 8080, Protocol: "http", Path: "/hello-world.json"}
+
+	test.Ok(t, params.BuildUrl(), "http://localhost:8080/hello-world.json")
+}
+
+func TestGivenBuildParams_whenPost_thenReturnRequestBody(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	params := Params{Hostname: "localhost", Port: 80, Protocol: "http", Path: "/"}
+	params.Url = server.URL
+
+	future := params.Post()
+
+	test.Ok(t, future().Body, "OK")
+}
+
 func postServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		test.Ok(t, req.URL.String(), "/")

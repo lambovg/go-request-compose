@@ -9,7 +9,14 @@ import (
 	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
+// Post send post to url or build url
 func (p Params) Post() func() *r.Response {
+
+	if p.Url != "" {
+		return p.post(p.Url)
+	}
+
+	p.Url = p.BuildUrl()
 
 	return p.post(p.Url)
 }
