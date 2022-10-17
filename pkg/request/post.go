@@ -21,6 +21,11 @@ func (p Params) Post() func() *r.Response {
 	return p.post(p.Url)
 }
 
+// Get by given url
+func Post(url string) func() *r.Response {
+	return Params{Url: url}.post(url)
+}
+
 // post .
 func (p Params) post(url string) func() *r.Response {
 	var body []byte

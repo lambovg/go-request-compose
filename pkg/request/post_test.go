@@ -55,6 +55,15 @@ func TestGivenBuildParams_whenPost_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Body, "OK")
 }
 
+func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	future := Post(server.URL)
+
+	test.Ok(t, future().Body, "OK")
+}
+
 func postServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		test.Ok(t, req.URL.String(), "/")
