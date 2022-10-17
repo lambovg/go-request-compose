@@ -2,11 +2,13 @@ package request
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 
 	test "github.com/lambovg/go-request-compose/internal"
 )
@@ -62,6 +64,26 @@ func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
 	future := Post(server.URL)
 
 	test.Ok(t, future().Body, "OK")
+}
+
+func TestGivenClient_whenPost_thenReturnRequestBody(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	future := Params{Url: server.URL, Client: *client}.Post()
+
+	test.Ok(t, future().Body, "OK")
+}
+
+func TestGivenClient_whenPost_thenReturnStatusCode(t *testing.T) {
+	server := server(t)
+	defer server.Close()
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	future := Params{Url: server.URL, Client: *client}.Post()
+
+	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
 
 func postServer(t *testing.T) *httptest.Server {

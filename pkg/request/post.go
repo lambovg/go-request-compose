@@ -21,6 +21,12 @@ func (p Params) Post() func() *r.Response {
 	return p.post(p.Url)
 }
 
+// Post with HttpClient struct
+func (c HttpClient) Post(p Params) func() *r.Response {
+	p.Client = *c.Client
+	return p.post(p.Url)
+}
+
 // Get by given url
 func Post(url string) func() *r.Response {
 	return Params{Url: url}.post(url)
