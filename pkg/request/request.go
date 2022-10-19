@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"sync"
 
-	cresponse "github.com/lambovg/go-request-compose/pkg/response"
+	r "github.com/lambovg/go-request-compose/pkg/response"
 )
 
 // Params .
@@ -35,7 +35,7 @@ type HttpClient struct {
 }
 
 // requestFunc .
-type requestFunc func(string) func() *cresponse.Response
+type requestFunc func(string) func() *r.Response
 
 // Client .
 func Client(p Params) *Params {
