@@ -44,7 +44,7 @@ func Client(p Params) *Params {
 }
 
 // NewRequest .
-func NewRequest(method string, url string, body io.Reader) *Request {
+func newRequest(method string, url string, body io.Reader) *Request {
 	req, err := http.NewRequest(method, url, body)
 
 	if err != nil {
@@ -52,6 +52,45 @@ func NewRequest(method string, url string, body io.Reader) *Request {
 	}
 
 	return &Request{req}
+}
+
+// NewRequest .
+func (p Params) NewRequest(url string, requestMethod string) func() *r.Response {
+	var body []byte
+	var err error
+	var response *http.Response
+	var statusCode int
+	var status string
+
+	rc := make(chan *http.Response, 1)
+
+	go func() {
+		defer close(rc)
+
+		if p.FormData != nil {
+			response, err = http.PostForm(url, p.FormData)
+		} else {
+			response, err = p.Client.Do(newRequest(requestMethod, url, p.Body).AttachHeaders(&p).Request)
+		}
+
+		if err == nil {
+			defer response.Body.Close()
+			body, _ = io.ReadAll(response.Body)
+			statusCode = response.StatusCode
+			status = response.Status
+
+			log.Println("async body", string(body))
+		}
+	}()
+
+	return func() *r.Response {
+		<-rc
+		return r.Response{
+			Body:       string(body),
+			Err:        err,
+			StatusCode: statusCode,
+			Status:     status}.Response(logger.NewBuiltinLogger())
+	}
 }
 
 // FutureGroup .
@@ -87,44 +126,5 @@ func FutureGroup(fn []string, rq requestFunc) {
 	case err := <-errorChan:
 		close(errorChan)
 		log.Println("Error encountered: ", err)
-	}
-}
-
-// NewRequest .
-func (p Params) NewRequest(url string, requestMethod string) func() *r.Response {
-	var body []byte
-	var err error
-	var response *http.Response
-	var statusCode int
-	var status string
-
-	rc := make(chan *http.Response, 1)
-
-	go func() {
-		defer close(rc)
-
-		if p.FormData != nil {
-			response, err = http.PostForm(url, p.FormData)
-		} else {
-			response, err = p.Client.Do(NewRequest(requestMethod, url, p.Body).AttachHeaders(&p).Request)
-		}
-
-		if err == nil {
-			defer response.Body.Close()
-			body, _ = io.ReadAll(response.Body)
-			statusCode = response.StatusCode
-			status = response.Status
-
-			log.Println("async body", string(body))
-		}
-	}()
-
-	return func() *r.Response {
-		<-rc
-		return r.Response{
-			Body:       string(body),
-			Err:        err,
-			StatusCode: statusCode,
-			Status:     status}.Response(logger.NewBuiltinLogger())
 	}
 }
