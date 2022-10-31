@@ -46,7 +46,7 @@ func TestGivenBuildParams_whenPost_thenReturnUrl(t *testing.T) {
 }
 
 func TestGivenBuildParams_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := postServer(t)
+	server := getServer(t)
 	defer server.Close()
 
 	params := Params{Hostname: "localhost", Port: 80, Protocol: "http", Path: "/"}
@@ -58,7 +58,7 @@ func TestGivenBuildParams_whenPost_thenReturnRequestBody(t *testing.T) {
 }
 
 func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := postServer(t)
+	server := getServer(t)
 	defer server.Close()
 
 	future := Post(server.URL)
@@ -67,7 +67,7 @@ func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
 }
 
 func TestGivenClient_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := postServer(t)
+	server := getServer(t)
 	defer server.Close()
 
 	client := &http.Client{Timeout: 30 * time.Second}
