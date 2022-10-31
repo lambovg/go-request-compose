@@ -13,7 +13,7 @@ import (
 )
 
 func TestGetFutureWithParams(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	future := Params{Url: server.URL}.Get()
@@ -21,7 +21,7 @@ func TestGetFutureWithParams(t *testing.T) {
 }
 
 func TestGetFutureWithUrl(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	future := Get(server.URL)
@@ -29,7 +29,7 @@ func TestGetFutureWithUrl(t *testing.T) {
 }
 
 func TestGetPromiseWithParams(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	promise := Params{Url: server.URL}.Get()
@@ -37,7 +37,7 @@ func TestGetPromiseWithParams(t *testing.T) {
 }
 
 func TestGetAsync(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	Get(server.URL)
@@ -47,7 +47,7 @@ func TestGetAsync(t *testing.T) {
 }
 
 func TestGetSetClientAndOverrideTimeout(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	client := &http.Client{Timeout: 30 * time.Second}
@@ -55,7 +55,7 @@ func TestGetSetClientAndOverrideTimeout(t *testing.T) {
 }
 
 func TestGetOverrideTimeoutWithCompableHttpClient(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	client := http.Client{Timeout: 30 * time.Second}
@@ -65,7 +65,7 @@ func TestGetOverrideTimeoutWithCompableHttpClient(t *testing.T) {
 }
 
 func TestBuildUrlByParams(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	params, _ := Params{Hostname: "localhost", Port: 8080, Protocol: "http", Path: "/hello-world.json"}.Getv2()
@@ -74,7 +74,7 @@ func TestBuildUrlByParams(t *testing.T) {
 }
 
 func TestStatusCode(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	client := http.Client{Timeout: 30 * time.Second}
@@ -86,7 +86,7 @@ func TestStatusCode(t *testing.T) {
 }
 
 func TestStatus(t *testing.T) {
-	server := server(t)
+	server := getServer(t)
 	defer server.Close()
 
 	client := http.Client{Timeout: 30 * time.Second}
@@ -118,7 +118,7 @@ func TestWithHttpTransport_returns200StatusCode(t *testing.T) {
 	test.Ok(t, fmt.Sprintf("%d", future().StatusCode), "200")
 }
 
-func server(t *testing.T) *httptest.Server {
+func getServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		test.Ok(t, req.URL.String(), "/")
 		rw.Write([]byte(`OK`))
