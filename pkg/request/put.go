@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Put send post to url or build url
+// Put sends put to url or build url
 func (p Params) Put() func() *r.Response {
 
 	if p.Url != "" {
@@ -14,18 +14,18 @@ func (p Params) Put() func() *r.Response {
 
 	p.Url = p.BuildUrl()
 
-	return p.post(p.Url)
+	return p.put(p.Url)
 }
 
 // Put with HttpClient struct
 func (c HttpClient) Put(p Params) func() *r.Response {
 	p.Client = *c.Client
-	return p.post(p.Url)
+	return p.put(p.Url)
 }
 
-// Put Get by given url
+// Put by given url
 func Put(url string) func() *r.Response {
-	return Params{Url: url}.post(url)
+	return Params{Url: url}.put(url)
 }
 
 // put .
