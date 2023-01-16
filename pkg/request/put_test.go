@@ -28,7 +28,7 @@ func TestGivenFormData_whenPut_thenReturnRequestBody(t *testing.T) {
 	defer server.Close()
 
 	formData := url.Values{
-		"username": {"jonh-doe"},
+		"username": {"john-doe"},
 	}
 
 	future := Params{Url: server.URL, FormData: formData}.Put()
