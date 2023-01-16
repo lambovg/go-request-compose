@@ -33,7 +33,7 @@ func TestGivenFormData_whenPut_thenReturnRequestBody(t *testing.T) {
 
 	future := Params{Url: server.URL, FormData: formData}.Put()
 
-	test.Ok(t, future().Body, "username=jonh-doe")
+	test.Ok(t, future().Body, "username=john-doe")
 }
 
 func TestGivenBuildParams_whenPut_thenReturnUrl(t *testing.T) {
