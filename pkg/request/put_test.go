@@ -45,6 +45,7 @@ func TestGivenBuildParams_whenPut_thenReturnUrl(t *testing.T) {
 	test.Ok(t, params.BuildUrl(), "http://localhost:8080/hello-world.json")
 }
 
+// TODO: support for sending body and remove getServer
 func TestGivenBuildParams_whenPut_thenReturnRequestBody(t *testing.T) {
 	server := getServer(t)
 	defer server.Close()
@@ -57,6 +58,7 @@ func TestGivenBuildParams_whenPut_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Body, "OK")
 }
 
+// TODO: support for sending body and remove getServer
 func TestGivenUrl_whenPut_thenReturnRequestBody(t *testing.T) {
 	server := getServer(t)
 	defer server.Close()
