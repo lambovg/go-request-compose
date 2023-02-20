@@ -17,8 +17,8 @@ func TestGivenParams_whenPut_thenReturnRequestBody(t *testing.T) {
 	server := putServer(t)
 	defer server.Close()
 
-	body := "post body"
-	future := Params{Url: server.URL, Body: bytes.NewBufferString(body)}.Post()
+	body := "put body"
+	future := Params{Url: server.URL, Body: bytes.NewBufferString(body)}.Put()
 
 	test.Ok(t, future().Body, body)
 }
@@ -45,27 +45,35 @@ func TestGivenBuildParams_whenPut_thenReturnUrl(t *testing.T) {
 	test.Ok(t, params.BuildUrl(), "http://localhost:8080/hello-world.json")
 }
 
-// TODO: support for sending body and remove getServer
 func TestGivenBuildParams_whenPut_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+	server := putServer(t)
 	defer server.Close()
 
 	params := Params{Hostname: "localhost", Port: 80, Protocol: "http", Path: "/"}
 	params.Url = server.URL
+	params.Body = bytes.NewBufferString("OK")
 
 	future := params.Put()
 
 	test.Ok(t, future().Body, "OK")
 }
 
-// TODO: support for sending body and remove getServer
-func TestGivenUrl_whenPut_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+func TestGivenUrlWithBody_whenPut_thenReturnRequestBody(t *testing.T) {
+	server := putServer(t)
 	defer server.Close()
 
-	future := Put(server.URL)
+	future := Put(server.URL, bytes.NewBufferString("OK"))
 
 	test.Ok(t, future().Body, "OK")
+}
+
+func TestGivenUrl_whenPut_thenReturnRequestBody(t *testing.T) {
+	server := putServer(t)
+	defer server.Close()
+
+	future := Put(server.URL, nil)
+
+	test.Ok(t, future().Body, "")
 }
 
 func TestGivenClient_whenPut_thenReturnStatusCode(t *testing.T) {
