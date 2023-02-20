@@ -2,6 +2,7 @@ package request
 
 import (
 	r "github.com/lambovg/go-request-compose/pkg/response"
+	"io"
 	"net/http"
 )
 
@@ -24,8 +25,8 @@ func (c HttpClient) Post(p Params) func() *r.Response {
 }
 
 // Post by given url
-func Post(url string) func() *r.Response {
-	return Params{Url: url}.post(url)
+func Post(url string, body io.Reader) func() *r.Response {
+	return Params{Url: url, Body: body}.post(url)
 }
 
 // post .
