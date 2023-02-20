@@ -13,14 +13,13 @@ Build request object with parameters, headers, url and endpoints.
 
 * ~~Current state is GET requests.~~
 * ~~Current state is POST requests.~~
-* Current state is PUT requests.
+* ~~Current state is PUT requests.~~
 * Current state is DELETE requests.
 
 ## TODO
 
-* Add body in POST,PUT,DELETE
+* Add body in POST,PUT
 * Re-work examples
-* Try nno
 
 ## Installation
 Clone this repo.
