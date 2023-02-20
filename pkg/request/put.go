@@ -2,6 +2,7 @@ package request
 
 import (
 	r "github.com/lambovg/go-request-compose/pkg/response"
+	"io"
 	"net/http"
 )
 
@@ -23,8 +24,12 @@ func (c HttpClient) Put(p Params) func() *r.Response {
 	return p.put(p.Url)
 }
 
-// Put by given url
-func Put(url string) func() *r.Response {
+// Put by given url and body
+func Put(url string, body io.Reader) func() *r.Response {
+	if body != nil {
+		return Params{Url: url, Body: body}.put(url)
+	}
+
 	return Params{Url: url}.put(url)
 }
 
