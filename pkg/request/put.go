@@ -26,11 +26,7 @@ func (c HttpClient) Put(p Params) func() *r.Response {
 
 // Put by given url and body
 func Put(url string, body io.Reader) func() *r.Response {
-	if body != nil {
-		return Params{Url: url, Body: body}.put(url)
-	}
-
-	return Params{Url: url}.put(url)
+	return Params{Url: url, Body: body}.put(url)
 }
 
 // put .

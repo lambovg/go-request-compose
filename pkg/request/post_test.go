@@ -45,38 +45,45 @@ func TestGivenBuildParams_whenPost_thenReturnUrl(t *testing.T) {
 	test.Ok(t, params.BuildUrl(), "http://localhost:8080/hello-world.json")
 }
 
-// TODO: support for sending body and remove getServer
 func TestGivenBuildParams_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+	server := postServer(t)
 	defer server.Close()
 
 	params := Params{Hostname: "localhost", Port: 80, Protocol: "http", Path: "/"}
 	params.Url = server.URL
+	params.Body = bytes.NewBufferString("OK")
 
 	future := params.Post()
 
 	test.Ok(t, future().Body, "OK")
 }
 
-// TODO: support for sending body and remove getServer
-func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+func TestGivenUrlWith_whenPost_thenReturnRequestBody(t *testing.T) {
+	server := postServer(t)
 	defer server.Close()
 
-	future := Post(server.URL)
+	future := Post(server.URL, bytes.NewBufferString("OK"))
 
 	test.Ok(t, future().Body, "OK")
 }
 
-// TODO: support for sending body and remove getServer
 func TestGivenClient_whenPost_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+	server := postServer(t)
 	defer server.Close()
 
 	client := &http.Client{Timeout: 30 * time.Second}
-	future := Params{Url: server.URL, Client: *client}.Post()
+	future := Params{Url: server.URL, Client: *client, Body: bytes.NewBufferString("OK")}.Post()
 
 	test.Ok(t, future().Body, "OK")
+}
+
+func TestGivenUrl_whenPost_thenReturnRequestBody(t *testing.T) {
+	server := postServer(t)
+	defer server.Close()
+
+	future := Post(server.URL, nil)
+
+	test.Ok(t, future().Body, "")
 }
 
 func TestGivenClient_whenPost_thenReturnStatusCode(t *testing.T) {
