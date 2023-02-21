@@ -61,6 +61,7 @@ func (p Params) NewRequest(url string, requestMethod string) func() *r.Response 
 	var response *http.Response
 	var statusCode int
 	var status string
+	var header http.Header
 
 	rc := make(chan *http.Response, 1)
 
@@ -78,6 +79,7 @@ func (p Params) NewRequest(url string, requestMethod string) func() *r.Response 
 			body, _ = io.ReadAll(response.Body)
 			statusCode = response.StatusCode
 			status = response.Status
+			header = response.Header
 
 			log.Println("async body", string(body))
 		}
@@ -89,6 +91,7 @@ func (p Params) NewRequest(url string, requestMethod string) func() *r.Response 
 			Body:       string(body),
 			Err:        err,
 			StatusCode: statusCode,
+			Header:     header,
 			Status:     status}.Response(logger.NewBuiltinLogger())
 	}
 }
