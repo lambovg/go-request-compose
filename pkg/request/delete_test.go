@@ -1,9 +1,7 @@
 package request
 
 import (
-	"bytes"
 	"fmt"
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -13,14 +11,13 @@ import (
 	test "github.com/lambovg/go-request-compose/internal"
 )
 
-func TestGivenParams_whenDelete_thenReturnRequestBody(t *testing.T) {
+func TestGivenParams_whenDelete_thenReturnEmptyRequestBody(t *testing.T) {
 	server := deleteServer(t)
 	defer server.Close()
 
-	body := "post body"
-	future := Params{Url: server.URL, Body: bytes.NewBufferString(body)}.Post()
+	future := Params{Url: server.URL}.Delete()
 
-	test.Ok(t, future().Body, body)
+	test.Ok(t, future().Body, "OK")
 }
 
 func TestGivenFormData_whenDelete_thenReturnRequestBody(t *testing.T) {
@@ -45,9 +42,8 @@ func TestGivenBuildParams_whenDelete_thenReturnUrl(t *testing.T) {
 	test.Ok(t, params.BuildUrl(), "http://localhost:8080/hello-world.json")
 }
 
-// TODO: support for sending body and remove getServer
-func TestGivenBuildParams_whenDelete_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+func TestGivenBuildParams_whenDelete_thenReturnResponseBody(t *testing.T) {
+	server := deleteServer(t)
 	defer server.Close()
 
 	params := Params{Hostname: "localhost", Port: 80, Protocol: "http", Path: "/"}
@@ -58,9 +54,8 @@ func TestGivenBuildParams_whenDelete_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Body, "OK")
 }
 
-// TODO: support for sending body and remove getServer
-func TestGivenUrl_whenDelete_thenReturnRequestBody(t *testing.T) {
-	server := getServer(t)
+func TestGivenUrl_whenDelete_thenReturnResponseBody(t *testing.T) {
+	server := deleteServer(t)
 	defer server.Close()
 
 	future := Delete(server.URL)
@@ -81,13 +76,7 @@ func TestGivenClient_whenDelete_thenReturnStatusCode(t *testing.T) {
 func deleteServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		test.Ok(t, req.URL.String(), "/")
-
-		body, _ := io.ReadAll(req.Body)
-
-		_, err := rw.Write([]byte(body))
-		if err != nil {
-			return
-		}
+		rw.Write([]byte(`OK`))
 	}))
 
 	return server
