@@ -9,7 +9,7 @@ import (
 func (p Params) Delete() func() *r.Response {
 
 	if p.Url != "" {
-		return p.put(p.Url)
+		return p.delete(p.Url)
 	}
 
 	p.Url = p.BuildUrl()
