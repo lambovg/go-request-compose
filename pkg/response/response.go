@@ -2,12 +2,14 @@ package response
 
 import (
 	"github.com/lambovg/go-request-compose/pkg/logger"
+	"net/http"
 )
 
 type Response struct {
 	Body       string
 	Err        error
 	StatusCode int
+	Header     http.Header
 	Status     string
 }
 
