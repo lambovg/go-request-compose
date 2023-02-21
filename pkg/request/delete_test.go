@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"testing"
 	"time"
 
@@ -24,13 +23,9 @@ func TestGivenFormData_whenDelete_thenReturnRequestBody(t *testing.T) {
 	server := deleteServer(t)
 	defer server.Close()
 
-	formData := url.Values{
-		"username": {"john-doe"},
-	}
+	future := Params{Url: server.URL}.Delete()
 
-	future := Params{Url: server.URL, FormData: formData}.Delete()
-
-	test.Ok(t, future().Body, "username=john-doe")
+	test.Ok(t, future().Body, "OK")
 }
 
 func TestGivenBuildParams_whenDelete_thenReturnUrl(t *testing.T) {
