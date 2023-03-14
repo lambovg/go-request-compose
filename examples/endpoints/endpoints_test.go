@@ -2,13 +2,13 @@ package endpoints_test
 
 import (
 	"encoding/json"
+	"github.com/lambovg/go-request-compose/examples/endpoints"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
 	"testing"
 
 	"github.com/lambovg/go-request-compose/examples/dataprovider"
-	"github.com/lambovg/go-request-compose/examples/endpoints"
 )
 
 func TestListUsers(t *testing.T) {
