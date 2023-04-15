@@ -8,11 +8,11 @@ import (
 	"testing"
 )
 
-func TestGivenParams_whenHead_thenReturnRequestBody(t *testing.T) {
-	server := headServer(t)
+func TestGivenParams_whenConnect_thenReturnRequestBody(t *testing.T) {
+	server := connectServer(t)
 	defer server.Close()
 
-	future := Params{Url: server.URL}.Head()
+	future := Params{Url: server.URL}.Connect()
 
 	test.Ok(t, future().Body, "")
 	test.Equals(t, future().StatusCode, 200)
@@ -20,11 +20,11 @@ func TestGivenParams_whenHead_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Header.Get("Content-Length"), fmt.Sprintf("%v", 20))
 }
 
-func TestGivenUrl_whenHead_thenReturnRequestBody(t *testing.T) {
-	server := headServer(t)
+func TestGivenUrl_whenConnect_thenReturnRequestBody(t *testing.T) {
+	server := connectServer(t)
 	defer server.Close()
 
-	future := Head(server.URL)
+	future := Connect(server.URL)
 
 	test.Ok(t, future().Body, "")
 	test.Equals(t, future().StatusCode, 200)
@@ -32,10 +32,10 @@ func TestGivenUrl_whenHead_thenReturnRequestBody(t *testing.T) {
 	test.Ok(t, future().Header.Get("Content-Length"), fmt.Sprintf("%v", 20))
 }
 
-func headServer(t *testing.T) *httptest.Server {
+func connectServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		rw.Header().Set("Content-Length", "20")
-		test.Ok(t, req.URL.String(), "/")
+		test.Match(t, req.URL.String(), "//127.0.0.1")
 	}))
 
 	return server
