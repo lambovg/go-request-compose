@@ -15,7 +15,8 @@ Build request object with parameters, headers, url and endpoints.
 * ~~Current state is POST requests.~~
 * ~~Current state is PUT requests.~~
 * ~~Current state is DELETE requests.~~
-* Current state is HEAD requests.
+* ~~Current state is HEAD requests.~~
+* Check payload options for POST and PUT
 
 ## TODO
 
