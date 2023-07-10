@@ -34,7 +34,7 @@ func OverrideTimeout() {
 	future()
 }
 
-func CompatableHttpClient() {
+func CompatibleHttpClient() {
 	client := http.Client{Timeout: 10 * time.Second}
 	params := cr.Params{Url: "http://localhost:8080/timeout"}
 
