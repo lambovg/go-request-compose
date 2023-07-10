@@ -1,4 +1,4 @@
-package main
+package endpoints
 
 import (
 	"database/sql"
@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/lambovg/go-request-compose/examples/dataprovider"
-	"github.com/lambovg/go-request-compose/examples/endpoints"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 
 	provider := dataprovider.NewUsersDatabase(db)
 	mux := http.NewServeMux()
-	mux.Handle("/users", endpoints.ListUsers(provider))
+	mux.Handle("/users", ListUsers(provider))
 
 	if err := http.ListenAndServe("", mux); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
