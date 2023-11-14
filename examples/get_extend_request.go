@@ -20,7 +20,6 @@ func GetExtendRequest() {
 	client.Get()()
 
 	// request to new path
-	// client.Url = "https://d2kgi8nio2h9bn.cloudfront.net/ping.json"
 	client.Path = "/ping.json"
 	client.Get()()
 
