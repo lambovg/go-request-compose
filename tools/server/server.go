@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -77,6 +78,14 @@ func main() {
 	http.HandleFunc("/timeout", func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(30 * time.Second)
 		responseWriter(w, r, "timeout")
+	})
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/ping") {
+			responseWriter(w, r, "ping: "+strings.Trim(r.URL.Path, "/ping"))
+		} else {
+			http.NotFound(w, r)
+		}
 	})
 
 	log.Printf("Starting server at port 8080")
