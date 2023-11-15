@@ -80,9 +80,18 @@ func main() {
 		responseWriter(w, r, "timeout")
 	})
 
+	// returns what is in the path as json object for testing purposes
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/ping") {
-			responseWriter(w, r, "ping: "+strings.Trim(r.URL.Path, "/ping"))
+			jsonObj := make(map[string]interface{})
+			jsonObj["ping"] = strings.TrimPrefix(r.URL.Path, "/ping")
+			marshal, err := json.Marshal(jsonObj)
+
+			if err != nil {
+				http.Error(w, err.Error(), 400)
+			}
+
+			responseWriter(w, r, string(marshal))
 		} else {
 			http.NotFound(w, r)
 		}
